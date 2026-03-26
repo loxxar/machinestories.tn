@@ -112,8 +112,21 @@ export default async function ArticlePage({ params }: PageProps) {
             </figure>
           )}
 
-          <div className="grid lg:grid-cols-[1fr_240px] gap-8">
-            <article className="prose prose-invert prose-sm max-w-none">
+          <div className="grid lg:grid-cols-[1fr_280px] gap-12">
+            <article className="prose prose-invert prose-lg max-w-none 
+              prose-headings:font-heading prose-headings:text-white 
+              prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h2:border-b prose-h2:border-white/10 prose-h2:pb-3
+              prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
+              prose-p:text-slate-300 prose-p:leading-relaxed prose-p:mb-6
+              prose-a:text-cyan-400 prose-a:no-underline hover:prose-a:underline
+              prose-strong:text-white prose-strong:font-semibold
+              prose-ul:text-slate-300 prose-ul:my-4 prose-li:my-1
+              prose-li:marker:text-cyan-500
+              prose-blockquote:border-l-cyan-500 prose-blockquote:text-slate-400 prose-blockquote:italic
+              prose-code:text-cyan-400 prose-code:bg-slate-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
+              prose-pre:bg-slate-900 prose-pre:border prose-pre:border-white/10 prose-pre:rounded-xl
+              prose-img:rounded-xl prose-img:border prose-img:border-white/10
+              prose-hr:border-white/10">
               <MDXRemote source={article.body.raw} />
             </article>
             <aside className="hidden lg:block"><TableOfContents headings={headings} /></aside>
