@@ -27,22 +27,22 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   
   return {
     title: `${category} - Blog IA`,
-    description: `Découvrez tous nos articles sur ${category.toLowerCase()} : tutoriels, analyses et actualités sur ce sujet IA.`,
+    description: `Articles sur ${category.toLowerCase()} : tutoriels, analyses et actualités.`,
     alternates: {
       canonical: `https://machinestories.tn/categorie/${slug}`,
     },
   };
 }
 
-const CATEGORY_DESCRIPTIONS: Record<string, string> = {
+const DESCRIPTIONS: Record<string, string> = {
   'machine-learning': 'Algorithmes et modèles qui permettent aux machines d\'apprendre à partir de données.',
-  'deep-learning': 'Réseaux de neurones profonds et architectures avancées pour l\'IA.',
+  'deep-learning': 'Réseaux de neurones profonds et architectures avancées.',
   'ia-generative': 'IA capable de créer du contenu : texte, images, musique, code.',
-  'actualites-ia': 'Dernières nouvelles et avancées dans le domaine de l\'intelligence artificielle.',
+  'actualites-ia': 'Dernières nouvelles et avancées en intelligence artificielle.',
   'tutoriels-guides': 'Apprenez à utiliser l\'IA avec nos guides pas à pas.',
-  'outils-applications': 'Découvrez les meilleurs outils et applications basés sur l\'IA.',
-  'ethique-societe': 'Réflexions sur les enjeux éthiques et sociétaux de l\'IA.',
-  'business-ia': 'Comment l\'IA transforme le monde des affaires et l\'entreprise.',
+  'outils-applications': 'Découvrez les meilleurs outils et applications IA.',
+  'ethique-societe': 'Enjeux éthiques et sociétaux de l\'IA.',
+  'business-ia': 'L\'IA dans le monde des affaires et l\'entreprise.',
 };
 
 export default async function CategoryPage({ params }: PageProps) {
@@ -52,32 +52,23 @@ export default async function CategoryPage({ params }: PageProps) {
     (c) => c.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') === slug
   );
   
-  if (!category) {
-    notFound();
-  }
+  if (!category) notFound();
 
   const articles = getArticlesByCategory(category);
 
   return (
-    <Container className="py-12">
-      <Breadcrumb items={[
-        { name: 'Blog', href: '/blog' },
-        { name: category, href: `/categorie/${slug}` },
-      ]} />
+    <Container className="py-8">
+      <Breadcrumb items={[{ name: 'Blog', href: '/blog' }, { name: category, href: `/categorie/${slug}` }]} />
 
-      <header className="mb-12">
-        <h1 className="font-heading text-3xl md:text-4xl font-bold text-white mb-4">
-          {category}
-        </h1>
-        <p className="text-slate-400 max-w-2xl">
-          {CATEGORY_DESCRIPTIONS[slug] || `Découvrez tous nos articles sur ${category.toLowerCase()}.`}
-        </p>
+      <header className="mb-8">
+        <h1 className="font-heading text-2xl md:text-3xl font-bold text-white mb-2">{category}</h1>
+        <p className="text-sm text-slate-400">{DESCRIPTIONS[slug] || `Articles sur ${category.toLowerCase()}.`}</p>
       </header>
 
       {articles.length === 0 ? (
-        <p className="text-slate-400">Aucun article dans cette catégorie pour le moment.</p>
+        <p className="text-slate-500">Aucun article dans cette catégorie.</p>
       ) : (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {articles.map((article) => (
             <ArticleCard key={article.slug} article={article} />
           ))}

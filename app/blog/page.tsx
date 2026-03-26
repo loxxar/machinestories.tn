@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Blog - Intelligence Artificielle',
-  description: 'Tous les articles sur l\'intelligence artificielle : tutoriels, actualités, analyses et guides sur le machine learning, deep learning, IA générative et ChatGPT.',
+  description: 'Tous les articles sur l\'intelligence artificielle : tutoriels, actualités, analyses et guides.',
   alternates: {
     canonical: 'https://machinestories.tn/blog',
   },
@@ -37,59 +37,59 @@ export default async function BlogPage({ params }: PageProps) {
   const tags = getAllTags();
 
   return (
-    <Container className="py-12">
+    <Container className="py-8">
       <Breadcrumb items={[{ name: 'Blog', href: '/blog' }]} />
 
-      <header className="mb-12">
-        <h1 className="font-heading text-3xl md:text-4xl font-bold text-white mb-4">
+      <header className="mb-8">
+        <h1 className="font-heading text-2xl md:text-3xl font-bold text-white mb-2">
           Blog Intelligence Artificielle
         </h1>
-        <p className="text-slate-400 max-w-2xl">
-          Découvrez tous nos articles sur l&apos;IA : tutoriels pratiques, analyses approfondies et dernières actualités sur le machine learning, le deep learning et l&apos;IA générative.
+        <p className="text-sm text-slate-400 max-w-2xl">
+          Tutoriels pratiques, analyses approfondies et dernières actualités sur l&apos;IA.
         </p>
       </header>
 
-      <div className="grid lg:grid-cols-[1fr_280px] gap-8">
+      <div className="grid lg:grid-cols-[1fr_240px] gap-8">
         <main>
-          <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
             {articles.map((article) => (
               <ArticleCard key={article.slug} article={article} />
             ))}
           </div>
 
           {totalPages > 1 && (
-            <nav aria-label="Pagination" className="mt-12 flex justify-center gap-2">
+            <nav aria-label="Pagination" className="mt-8 flex justify-center gap-2">
               {currentPage > 1 && (
                 <Link
                   href={currentPage === 2 ? '/blog' : `/blog/page/${currentPage - 1}`}
-                  className="px-4 py-2 text-sm font-medium text-slate-300 bg-slate-900 border border-white/10 rounded-lg hover:bg-slate-800 transition-colors"
+                  className="px-3 py-1.5 text-sm font-medium text-slate-300 bg-slate-900 border border-white/10 rounded-lg hover:bg-slate-800 transition-colors"
                 >
-                  ← Précédent
+                  ←
                 </Link>
               )}
               
-              <span className="px-4 py-2 text-sm text-slate-500">
-                Page {currentPage} sur {totalPages}
+              <span className="px-3 py-1.5 text-sm text-slate-500">
+                {currentPage}/{totalPages}
               </span>
 
               {currentPage < totalPages && (
                 <Link
                   href={`/blog/page/${currentPage + 1}`}
-                  className="px-4 py-2 text-sm font-medium text-slate-300 bg-slate-900 border border-white/10 rounded-lg hover:bg-slate-800 transition-colors"
+                  className="px-3 py-1.5 text-sm font-medium text-slate-300 bg-slate-900 border border-white/10 rounded-lg hover:bg-slate-800 transition-colors"
                 >
-                  Suivant →
+                  →
                 </Link>
               )}
             </nav>
           )}
         </main>
 
-        <aside className="space-y-8">
+        <aside className="space-y-6">
           <div>
-            <h2 className="font-heading text-sm font-semibold text-white mb-4 uppercase tracking-wide">
+            <h2 className="font-heading text-xs font-semibold text-white mb-3 uppercase tracking-wide">
               Catégories
             </h2>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5">
               {categories.map((cat) => {
                 const slug = cat.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
                 return (
@@ -102,11 +102,11 @@ export default async function BlogPage({ params }: PageProps) {
           </div>
 
           <div>
-            <h2 className="font-heading text-sm font-semibold text-white mb-4 uppercase tracking-wide">
+            <h2 className="font-heading text-xs font-semibold text-white mb-3 uppercase tracking-wide">
               Tags populaires
             </h2>
-            <div className="flex flex-wrap gap-2">
-              {tags.slice(0, 20).map((tag) => {
+            <div className="flex flex-wrap gap-1.5">
+              {tags.slice(0, 15).map((tag) => {
                 const slug = tag.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
                 return (
                   <Badge key={tag} variant="default" href={`/tag/${slug}`}>
