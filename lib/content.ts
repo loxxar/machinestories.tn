@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import readingTime from 'reading-time';
+import { slugify } from './utils';
 
 const contentDirectory = path.join(process.cwd(), 'content/blog');
 
@@ -26,7 +27,8 @@ export interface Article {
 
 function parseArticle(filename: string): Article | null {
   try {
-    const slug = filename.replace(/\.mdx$/, '');
+    const rawSlug = filename.replace(/\.mdx$/, '');
+    const slug = slugify(rawSlug);
     const fullPath = path.join(contentDirectory, filename);
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);

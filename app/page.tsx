@@ -196,7 +196,7 @@ export default function HomePage() {
             Restez à la pointe de l&apos;IA
           </h2>
           <p className="text-white/80 mb-6 max-w-xl mx-auto text-sm">
-            Recevez les derniers articles directement dans votre boîte mail. Aucune spam, promis.
+            Recevez les derniers articles directement dans votre boîte mail. Aucun spam, promis.
           </p>
           <form className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
             <input

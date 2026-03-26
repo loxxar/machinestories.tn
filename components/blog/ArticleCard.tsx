@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { formatDate, formatDateISO } from '@/lib/utils';
+import { formatDate, formatDateISO, slugify } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import type { Article } from '@/lib/content';
@@ -11,7 +11,7 @@ interface ArticleCardProps {
 }
 
 export default function ArticleCard({ article, featured = false }: ArticleCardProps) {
-  const categorySlug = article.category.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  const categorySlug = slugify(article.category);
 
   if (featured) {
     return (

@@ -19,7 +19,7 @@ export default function Header() {
           <div className="relative w-8 h-8">
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-lg rotate-3 group-hover:rotate-6 transition-transform" />
             <div className="absolute inset-0 bg-slate-950 rounded-lg flex items-center justify-center">
-              <span className="text-sm font-bold bg-gradient-to-br from-cyan-400 to-blue-400 bg-clip-text text-transparent">M</span>
+              <span aria-hidden="true" className="text-sm font-bold bg-gradient-to-br from-cyan-400 to-blue-400 bg-clip-text text-transparent">M</span>
             </div>
           </div>
           <span className="font-heading text-lg font-bold text-white hidden sm:inline">
