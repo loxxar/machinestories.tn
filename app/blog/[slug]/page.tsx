@@ -5,7 +5,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getAllArticles, getArticleBySlug, getSimilarArticles, generateArticleMetadata } from '@/lib/content';
 import { formatDate, formatDateISO, slugify } from '@/lib/utils';
-import Container from '@/components/ui/Container';
 import Breadcrumb from '@/components/layout/Breadcrumb';
 import Badge from '@/components/ui/Badge';
 import ArticleJsonLd from '@/components/seo/ArticleJsonLd';
@@ -57,65 +56,115 @@ export default async function ArticlePage({ params }: PageProps) {
       <ArticleJsonLd article={article} />
       <ReadingProgress />
       
-      <article className="py-8">
-        <Container>
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-slate-950">
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px]" />
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px]" />
+        </div>
+        
+        <div className="relative z-10 container mx-auto px-4 pt-12 pb-8">
           <Breadcrumb items={[
             { name: 'Blog', href: '/blog' },
             { name: article.category, href: `/categorie/${categorySlug}` },
-            { name: article.title, href: article.route }
           ]} />
+          
+          {/* Category & Reading time */}
+          <div className="flex flex-wrap items-center gap-3 mt-6 mb-4">
+            <Badge variant="primary" href={`/categorie/${categorySlug}`}>
+              {article.category}
+            </Badge>
+            <span className="inline-flex items-center gap-1.5 text-xs text-slate-400">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              {article.readingTime} min de lecture
+            </span>
+            <span className="inline-flex items-center gap-1.5 text-xs text-slate-500">
+              {article.wordCount.toLocaleString()} mots
+            </span>
+          </div>
 
-          <header className="max-w-3xl mx-auto mb-6">
-            <div className="flex flex-wrap items-center gap-2 mb-3 text-xs">
-              <Badge variant="primary" href={`/categorie/${categorySlug}`}>{article.category}</Badge>
-              <span className="text-slate-500">{article.readingTime} min</span>
-              <span className="text-slate-500">• {article.wordCount} mots</span>
+          {/* Title */}
+          <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 max-w-4xl leading-tight">
+            {article.title}
+          </h1>
+
+          {/* Description */}
+          <p className="text-lg text-slate-400 mb-6 max-w-3xl leading-relaxed">
+            {article.description}
+          </p>
+
+          {/* Tags */}
+          <div className="flex flex-wrap gap-2 mb-6">
+            {article.tags.map((tag) => (
+              <Badge key={tag} variant="default" href={`/tag/${slugify(tag)}`}>
+                #{tag}
+              </Badge>
+            ))}
+          </div>
+
+          {/* Author & Date */}
+          <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500 pb-8 border-b border-white/10">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white font-bold text-sm">
+                {article.author.charAt(0)}
+              </div>
+              <div>
+                <span className="text-white font-medium">{article.author}</span>
+                <div className="flex items-center gap-2 text-xs">
+                  <time dateTime={formatDateISO(article.date)}>Publié le {formatDate(article.date)}</time>
+                  {article.lastModified && article.lastModified !== article.date && (
+                    <>
+                      <span>•</span>
+                      <time dateTime={formatDateISO(article.lastModified)}>Mis à jour le {formatDate(article.lastModified)}</time>
+                    </>
+                  )}
+                </div>
+              </div>
             </div>
+          </div>
+        </div>
+      </section>
 
-            <h1 className="font-heading text-2xl md:text-4xl font-bold text-white mb-4">
-              {article.title}
-            </h1>
-
-            <p className="text-base text-slate-400 mb-4">{article.description}</p>
-
-            <div className="flex flex-wrap gap-2 mb-3">
-              {article.tags.map((tag) => {
-                const tagSlug = slugify(tag);
-                return <Badge key={tag} variant="default" href={`/tag/${tagSlug}`}>{tag}</Badge>;
-              })}
-            </div>
-
-            <div className="flex items-center gap-3 text-xs text-slate-500">
-              <time dateTime={formatDateISO(article.date)}>Publié le {formatDate(article.date)}</time>
-              {article.lastModified && article.lastModified !== article.date && (
-                <>
-                  <span>•</span>
-                  <time dateTime={formatDateISO(article.lastModified)}>Mis à jour le {formatDate(article.lastModified)}</time>
-                </>
-              )}
-            </div>
-          </header>
-
-          {article.image && (
-            <figure className="max-w-4xl mx-auto mb-8">
-              <div className="relative aspect-video rounded-lg overflow-hidden">
+      {/* Featured Image */}
+      {article.image && (
+        <section className="relative bg-slate-950 pb-8">
+          <div className="container mx-auto px-4">
+            <div className="relative max-w-5xl mx-auto">
+              <div className="absolute -inset-px bg-gradient-to-r from-cyan-500/20 via-blue-500/20 to-cyan-500/20 rounded-2xl blur-sm" />
+              <div className="relative rounded-2xl overflow-hidden aspect-[2/1]">
                 <Image
                   src={article.image}
                   alt={article.imageAlt || article.title}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 1024px"
+                  sizes="(max-width: 1280px) 100vw, 1280px"
                   priority
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
               </div>
-              {article.imageAlt && <figcaption className="mt-2 text-xs text-slate-500 text-center">{article.imageAlt}</figcaption>}
-            </figure>
-          )}
+              {article.imageAlt && (
+                <figcaption className="mt-3 text-sm text-slate-500 text-center">
+                  {article.imageAlt}
+                </figcaption>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
 
-          <div className="grid lg:grid-cols-[1fr_280px] gap-12">
+      {/* Article Content */}
+      <section className="relative bg-slate-950 py-12">
+        <div className="absolute inset-0">
+          <div className="absolute top-1/2 left-0 w-72 h-72 bg-cyan-500/5 rounded-full blur-[100px] -translate-y-1/2" />
+        </div>
+        
+        <div className="relative z-10 container mx-auto px-4">
+          <div className="grid lg:grid-cols-[1fr_280px] gap-12 max-w-6xl mx-auto">
             <article className="prose prose-invert prose-lg max-w-none 
               prose-headings:font-heading prose-headings:text-white 
-              prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h2:border-b prose-h2:border-white/10 prose-h2:pb-3
+              prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4 prose-h2:border-b prose-h2:border-white/10 prose-h2:pb-3
               prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
               prose-p:text-slate-300 prose-p:leading-relaxed prose-p:mb-6
               prose-a:text-cyan-400 prose-a:no-underline hover:prose-a:underline
@@ -129,16 +178,36 @@ export default async function ArticlePage({ params }: PageProps) {
               prose-hr:border-white/10">
               <MDXRemote source={article.body.raw} />
             </article>
-            <aside className="hidden lg:block"><TableOfContents headings={headings} /></aside>
+            <aside className="hidden lg:block">
+              <div className="sticky top-24">
+                <TableOfContents headings={headings} />
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      {/* Share & Author & Related */}
+      <section className="bg-slate-950 border-t border-white/5 py-12">
+        <div className="container mx-auto px-4 max-w-5xl">
+          {/* Share */}
+          <div className="flex items-center gap-4 p-6 bg-slate-900/50 border border-white/5 rounded-xl mb-8">
+            <div className="flex-1">
+              <h3 className="font-heading text-lg font-bold text-white mb-1">Tu as aimé cet article ?</h3>
+              <p className="text-sm text-slate-400">Partage-le avec tes contacts</p>
+            </div>
+            <ShareButtons url={article.route} title={article.title} />
           </div>
 
-          <footer className="max-w-3xl mx-auto mt-8">
-            <ShareButtons url={article.route} title={article.title} />
-            <div className="mt-6"><AuthorBio name={article.author} /></div>
-            <SimilarArticles articles={similarArticles} />
-          </footer>
-        </Container>
-      </article>
+          {/* Author Bio */}
+          <div className="mb-8">
+            <AuthorBio name={article.author} />
+          </div>
+
+          {/* Related Articles */}
+          <SimilarArticles articles={similarArticles} />
+        </div>
+      </section>
     </>
   );
 }
