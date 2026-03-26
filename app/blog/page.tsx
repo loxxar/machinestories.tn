@@ -44,7 +44,7 @@ export default async function BlogPage({ params }: PageProps) {
         <h1 className="font-heading text-3xl md:text-4xl font-bold text-white mb-4">
           Blog Intelligence Artificielle
         </h1>
-        <p className="text-gray-400 max-w-2xl">
+        <p className="text-slate-400 max-w-2xl">
           Découvrez tous nos articles sur l&apos;IA : tutoriels pratiques, analyses approfondies et dernières actualités sur le machine learning, le deep learning et l&apos;IA générative.
         </p>
       </header>
@@ -62,20 +62,20 @@ export default async function BlogPage({ params }: PageProps) {
               {currentPage > 1 && (
                 <Link
                   href={currentPage === 2 ? '/blog' : `/blog/page/${currentPage - 1}`}
-                  className="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-900 border border-white/10 rounded-lg hover:bg-gray-800 transition-colors"
+                  className="px-4 py-2 text-sm font-medium text-slate-300 bg-slate-900 border border-white/10 rounded-lg hover:bg-slate-800 transition-colors"
                 >
                   ← Précédent
                 </Link>
               )}
               
-              <span className="px-4 py-2 text-sm text-gray-500">
+              <span className="px-4 py-2 text-sm text-slate-500">
                 Page {currentPage} sur {totalPages}
               </span>
 
               {currentPage < totalPages && (
                 <Link
                   href={`/blog/page/${currentPage + 1}`}
-                  className="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-900 border border-white/10 rounded-lg hover:bg-gray-800 transition-colors"
+                  className="px-4 py-2 text-sm font-medium text-slate-300 bg-slate-900 border border-white/10 rounded-lg hover:bg-slate-800 transition-colors"
                 >
                   Suivant →
                 </Link>

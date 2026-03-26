@@ -41,11 +41,11 @@ export default function SimilarArticles({ articles }: SimilarArticlesProps) {
                     {article.category}
                   </Badge>
                   <h3 className="font-heading text-base font-semibold text-white mb-2 line-clamp-2">
-                    <Link href={article.route} className="hover:text-violet-300 transition-colors">
+                    <Link href={article.route} className="hover:text-cyan-300 transition-colors">
                       {article.title}
                     </Link>
                   </h3>
-                  <time dateTime={formatDateISO(article.date)} className="text-xs text-gray-500">
+                  <time dateTime={formatDateISO(article.date)} className="text-xs text-slate-500">
                     {formatDate(article.date)}
                   </time>
                 </div>

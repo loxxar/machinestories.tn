@@ -73,10 +73,10 @@ export default async function ArticlePage({ params }: PageProps) {
               <Badge variant="primary" href={`/categorie/${categorySlug}`}>
                 {article.category}
               </Badge>
-              <span className="text-sm text-gray-500">
+              <span className="text-sm text-slate-500">
                 {article.readingTime} min de lecture
               </span>
-              <span className="text-sm text-gray-500">
+              <span className="text-sm text-slate-500">
                 • {article.wordCount} mots
               </span>
             </div>
@@ -85,11 +85,11 @@ export default async function ArticlePage({ params }: PageProps) {
               {article.title}
             </h1>
 
-            <p className="text-lg text-gray-400 mb-6">
+            <p className="text-lg text-slate-400 mb-6">
               {article.description}
             </p>
 
-            <div className="flex items-center gap-4 text-sm text-gray-500">
+            <div className="flex items-center gap-4 text-sm text-slate-500">
               <div className="flex items-center gap-2">
                 <time dateTime={formatDateISO(article.date)}>
                   Publié le {formatDate(article.date)}
@@ -130,7 +130,7 @@ export default async function ArticlePage({ params }: PageProps) {
                 />
               </div>
               {article.imageAlt && (
-                <figcaption className="mt-3 text-sm text-gray-500 text-center">
+                <figcaption className="mt-3 text-sm text-slate-500 text-center">
                   {article.imageAlt}
                 </figcaption>
               )}

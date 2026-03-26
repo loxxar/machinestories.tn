@@ -10,8 +10,8 @@ interface BadgeProps {
 
 export default function Badge({ children, variant = 'default', href, className }: BadgeProps) {
   const variants = {
-    default: 'bg-white/10 text-gray-300 hover:bg-white/20',
-    primary: 'bg-violet-500/20 text-violet-300 hover:bg-violet-500/30',
+    default: 'bg-white/10 text-slate-300 hover:bg-white/20',
+    primary: 'bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30',
   };
 
   const classes = cn(

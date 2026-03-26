@@ -15,7 +15,7 @@ export default function ArticleCard({ article, featured = false }: ArticleCardPr
 
   if (featured) {
     return (
-      <article className="grid md:grid-cols-2 gap-6 bg-gray-900/80 border border-white/5 rounded-xl overflow-hidden">
+      <article className="grid md:grid-cols-2 gap-6 bg-slate-900/80 border border-white/5 rounded-xl overflow-hidden">
         {article.image && (
           <div className="relative aspect-video md:aspect-auto overflow-hidden">
             <Image
@@ -33,25 +33,25 @@ export default function ArticleCard({ article, featured = false }: ArticleCardPr
             <Badge variant="primary" href={`/categorie/${categorySlug}`}>
               {article.category}
             </Badge>
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-slate-500">
               {article.readingTime} min de lecture
             </span>
           </div>
           <h2 className="font-heading text-2xl font-bold text-white mb-3 line-clamp-2">
-            <Link href={article.route} className="hover:text-violet-300 transition-colors">
+            <Link href={article.route} className="hover:text-cyan-300 transition-colors">
               {article.title}
             </Link>
           </h2>
-          <p className="text-gray-400 mb-4 line-clamp-3">
+          <p className="text-slate-400 mb-4 line-clamp-3">
             {article.description}
           </p>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
-              <time dateTime={formatDateISO(article.date)} className="text-sm text-gray-500">
+              <time dateTime={formatDateISO(article.date)} className="text-sm text-slate-500">
                 {formatDate(article.date)}
               </time>
-              <span className="text-gray-600">•</span>
-              <span className="text-sm text-gray-500">{article.author}</span>
+              <span className="text-slate-600">•</span>
+              <span className="text-sm text-slate-500">{article.author}</span>
             </div>
           </div>
         </div>
@@ -79,19 +79,19 @@ export default function ArticleCard({ article, featured = false }: ArticleCardPr
             <Badge variant="primary" href={`/categorie/${categorySlug}`}>
               {article.category}
             </Badge>
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-slate-500">
               {article.readingTime} min
             </span>
           </div>
           <h2 className="font-heading text-lg font-bold text-white mb-2 line-clamp-2">
-            <Link href={article.route} className="hover:text-violet-300 transition-colors">
+            <Link href={article.route} className="hover:text-cyan-300 transition-colors">
               {article.title}
             </Link>
           </h2>
-          <p className="text-sm text-gray-400 mb-4 line-clamp-2">
+          <p className="text-sm text-slate-400 mb-4 line-clamp-2">
             {article.description}
           </p>
-          <div className="flex items-center gap-2 text-xs text-gray-500">
+          <div className="flex items-center gap-2 text-xs text-slate-500">
             <time dateTime={formatDateISO(article.date)}>{formatDate(article.date)}</time>
             <span>•</span>
             <span>{article.author}</span>

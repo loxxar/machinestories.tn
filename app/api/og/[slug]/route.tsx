@@ -17,7 +17,7 @@ export async function GET(req: Request, { params }: PageProps) {
           flexDirection: 'column',
           alignItems: 'flex-start',
           justifyContent: 'flex-end',
-          backgroundColor: '#030014',
+          backgroundColor: '#020617',
           padding: '60px',
           fontFamily: 'system-ui, sans-serif',
         }}
@@ -37,7 +37,7 @@ export async function GET(req: Request, { params }: PageProps) {
               width: '50px',
               height: '50px',
               borderRadius: '12px',
-              background: 'linear-gradient(135deg, #7c3aed 0%, #d946ef 100%)',
+              background: 'linear-gradient(135deg, #0891b2 0%, #3b82f6 100%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -48,13 +48,13 @@ export async function GET(req: Request, { params }: PageProps) {
           >
             M
           </div>
-          <span style={{ color: '#a78bfa', fontSize: '18px' }}>machinestories.tn</span>
+          <span style={{ color: '#67e8f9', fontSize: '18px' }}>machinestories.tn</span>
         </div>
 
         <div
           style={{
             display: 'flex',
-            background: 'linear-gradient(135deg, #7c3aed 0%, #d946ef 100%)',
+            background: 'linear-gradient(135deg, #0891b2 0%, #3b82f6 100%)',
             color: 'white',
             padding: '8px 16px',
             borderRadius: '8px',
@@ -88,7 +88,7 @@ export async function GET(req: Request, { params }: PageProps) {
 
           <p
             style={{
-              color: '#a78bfa',
+              color: '#67e8f9',
               fontSize: '20px',
               lineHeight: 1.5,
               margin: 0,

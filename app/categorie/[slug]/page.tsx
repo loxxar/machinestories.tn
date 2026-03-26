@@ -69,13 +69,13 @@ export default async function CategoryPage({ params }: PageProps) {
         <h1 className="font-heading text-3xl md:text-4xl font-bold text-white mb-4">
           {category}
         </h1>
-        <p className="text-gray-400 max-w-2xl">
+        <p className="text-slate-400 max-w-2xl">
           {CATEGORY_DESCRIPTIONS[slug] || `Découvrez tous nos articles sur ${category.toLowerCase()}.`}
         </p>
       </header>
 
       {articles.length === 0 ? (
-        <p className="text-gray-400">Aucun article dans cette catégorie pour le moment.</p>
+        <p className="text-slate-400">Aucun article dans cette catégorie pour le moment.</p>
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {articles.map((article) => (
