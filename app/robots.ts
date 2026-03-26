@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: '/api/',
       },
     ],
-    sitemap: 'https://nodes.tn/sitemap.xml',
+    sitemap: 'https://machinestories.tn/sitemap.xml',
   };
 }

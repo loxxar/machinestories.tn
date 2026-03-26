@@ -17,7 +17,7 @@ export async function GET(req: Request, { params }: PageProps) {
           flexDirection: 'column',
           alignItems: 'flex-start',
           justifyContent: 'flex-end',
-          backgroundColor: '#0f172a',
+          backgroundColor: '#030014',
           padding: '60px',
           fontFamily: 'system-ui, sans-serif',
         }}
@@ -34,30 +34,30 @@ export async function GET(req: Request, { params }: PageProps) {
         >
           <div
             style={{
-              width: '40px',
-              height: '40px',
-              borderRadius: '50%',
-              backgroundColor: '#0ea5e9',
+              width: '50px',
+              height: '50px',
+              borderRadius: '12px',
+              background: 'linear-gradient(135deg, #7c3aed 0%, #d946ef 100%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               color: 'white',
               fontWeight: 'bold',
-              fontSize: '20px',
+              fontSize: '24px',
             }}
           >
-            N
+            M
           </div>
-          <span style={{ color: '#94a3b8', fontSize: '18px' }}>nodes.tn</span>
+          <span style={{ color: '#a78bfa', fontSize: '18px' }}>machinestories.tn</span>
         </div>
 
         <div
           style={{
             display: 'flex',
-            backgroundColor: '#0ea5e9',
+            background: 'linear-gradient(135deg, #7c3aed 0%, #d946ef 100%)',
             color: 'white',
             padding: '8px 16px',
-            borderRadius: '6px',
+            borderRadius: '8px',
             fontSize: '14px',
             fontWeight: 600,
             marginBottom: '24px',
@@ -79,7 +79,7 @@ export async function GET(req: Request, { params }: PageProps) {
               color: 'white',
               fontSize: '56px',
               fontWeight: 700,
-              lineHeight: 1.2,
+              lineHeight: 1.1,
               margin: 0,
             }}
           >
@@ -88,14 +88,14 @@ export async function GET(req: Request, { params }: PageProps) {
 
           <p
             style={{
-              color: '#94a3b8',
+              color: '#a78bfa',
               fontSize: '20px',
               lineHeight: 1.5,
               margin: 0,
               maxWidth: '800px',
             }}
           >
-           nodes.tn - Votre blog sur l&apos;intelligence artificielle
+            Machine Stories - Votre source sur l&apos;intelligence artificielle
           </p>
         </div>
 
@@ -108,7 +108,7 @@ export async function GET(req: Request, { params }: PageProps) {
           }}
         >
           <span style={{ color: '#64748b', fontSize: '16px' }}>
-            nodes.tn
+            machinestories.tn
           </span>
         </div>
       </div>

@@ -73,23 +73,23 @@ export default async function ArticlePage({ params }: PageProps) {
               <Badge variant="primary" href={`/categorie/${categorySlug}`}>
                 {article.category}
               </Badge>
-              <span className="text-sm text-gray-500 dark:text-gray-400">
+              <span className="text-sm text-gray-500">
                 {article.readingTime} min de lecture
               </span>
-              <span className="text-sm text-gray-500 dark:text-gray-400">
+              <span className="text-sm text-gray-500">
                 • {article.wordCount} mots
               </span>
             </div>
 
-            <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
               {article.title}
             </h1>
 
-            <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
+            <p className="text-lg text-gray-400 mb-6">
               {article.description}
             </p>
 
-            <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+            <div className="flex items-center gap-4 text-sm text-gray-500">
               <div className="flex items-center gap-2">
                 <time dateTime={formatDateISO(article.date)}>
                   Publié le {formatDate(article.date)}
@@ -130,7 +130,7 @@ export default async function ArticlePage({ params }: PageProps) {
                 />
               </div>
               {article.imageAlt && (
-                <figcaption className="mt-3 text-sm text-gray-500 dark:text-gray-400 text-center">
+                <figcaption className="mt-3 text-sm text-gray-500 text-center">
                   {article.imageAlt}
                 </figcaption>
               )}
@@ -138,9 +138,9 @@ export default async function ArticlePage({ params }: PageProps) {
           )}
 
           <div className="grid lg:grid-cols-[1fr_280px] gap-12">
-            <div className="prose prose-lg dark:prose-invert max-w-none">
+            <article className="prose prose-invert prose-lg max-w-none">
               <MDXRemote source={article.body.raw} />
-            </div>
+            </article>
 
             <aside className="hidden lg:block">
               <TableOfContents headings={headings} />

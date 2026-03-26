@@ -15,36 +15,34 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-950">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="border-t border-white/10 bg-gray-950">
+      <div className="container mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           <div className="md:col-span-1">
-            <Link href="/" className="flex items-center gap-2 mb-4" aria-label="Nodes.tn">
-              <svg className="w-8 h-8 text-primary-600 dark:text-primary-400" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-                <circle cx="16" cy="16" r="14" stroke="currentColor" strokeWidth="2" />
-                <circle cx="16" cy="10" r="3" fill="currentColor" />
-                <circle cx="10" cy="20" r="2.5" fill="currentColor" />
-                <circle cx="22" cy="20" r="2.5" fill="currentColor" />
-                <line x1="16" y1="13" x2="10" y2="18" stroke="currentColor" strokeWidth="1.5" />
-                <line x1="16" y1="13" x2="22" y2="18" stroke="currentColor" strokeWidth="1.5" />
-              </svg>
-              <span className="font-heading text-xl font-bold text-gray-900 dark:text-white">
-                Nodes<span className="text-primary-600 dark:text-primary-400">.tn</span>
+            <Link href="/" className="flex items-center gap-3 mb-4" aria-label="Machine Stories">
+              <div className="relative w-10 h-10">
+                <div className="absolute inset-0 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-xl rotate-6" />
+                <div className="absolute inset-0 bg-gray-950 rounded-xl flex items-center justify-center">
+                  <span className="text-xl font-bold bg-gradient-to-br from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">M</span>
+                </div>
+              </div>
+              <span className="font-heading text-xl font-bold text-white">
+                Machine<span className="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">Stories</span>
               </span>
             </Link>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Blog dédié à l&apos;intelligence artificielle : actualités, tutoriels, analyses et guides sur l&apos;IA.
+            <p className="text-sm text-gray-400 leading-relaxed">
+              Votre source francophone sur l&apos;intelligence artificielle : actualités, tutoriels, analyses et guides pour comprendre l&apos;IA de demain.
             </p>
           </div>
 
           <div>
-            <h3 className="font-heading font-semibold text-gray-900 dark:text-white mb-4">Catégories</h3>
-            <ul className="space-y-2">
+            <h3 className="font-heading font-semibold text-white mb-4">Catégories</h3>
+            <ul className="space-y-3">
               {categories.slice(0, 4).map((cat) => (
                 <li key={cat.slug}>
                   <Link
                     href={`/categorie/${cat.slug}`}
-                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                    className="text-sm text-gray-400 hover:text-white transition-colors"
                   >
                     {cat.name}
                   </Link>
@@ -54,25 +52,25 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="font-heading font-semibold text-gray-900 dark:text-white mb-4">Pages</h3>
-            <ul className="space-y-2">
+            <h3 className="font-heading font-semibold text-white mb-4">Pages</h3>
+            <ul className="space-y-3">
               <li>
-                <Link href="/blog" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                <Link href="/blog" className="text-sm text-gray-400 hover:text-white transition-colors">
                   Blog
                 </Link>
               </li>
               <li>
-                <Link href="/a-propos" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                <Link href="/a-propos" className="text-sm text-gray-400 hover:text-white transition-colors">
                   À propos
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                <Link href="/contact" className="text-sm text-gray-400 hover:text-white transition-colors">
                   Contact
                 </Link>
               </li>
               <li>
-                <Link href="/recherche" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                <Link href="/recherche" className="text-sm text-gray-400 hover:text-white transition-colors">
                   Recherche
                 </Link>
               </li>
@@ -80,10 +78,10 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="font-heading font-semibold text-gray-900 dark:text-white mb-4">RSS & Suivre</h3>
-            <ul className="space-y-2">
+            <h3 className="font-heading font-semibold text-white mb-4">RSS & Suivre</h3>
+            <ul className="space-y-3">
               <li>
-                <Link href="/rss.xml" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center gap-2">
+                <Link href="/rss.xml" className="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-2">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                     <path d="M6 2a6 6 0 0111.607 2.393A6 6 0 0116 18a5.97 5.97 0 01-3.356-.949A4 4 0 0015 18H3a4 4 0 01-3.894-5.789A6.03 6.03 0 013 18a6 6 0 01-.001-12.001A6 6 0 016 2z" />
                     <circle cx="4" cy="14" r="1.5" />
@@ -93,8 +91,8 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="https://twitter.com/nodes_tn"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center gap-2"
+                  href="https://twitter.com/machine_stories"
+                  className="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-2"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -106,8 +104,8 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="https://linkedin.com/company/nodes-tn"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center gap-2"
+                  href="https://linkedin.com/company/machine-stories"
+                  className="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-2"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -121,15 +119,15 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-200 dark:border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            © {currentYear} Nodes.tn. Tous droits réservés.
+        <div className="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-gray-400">
+            © {currentYear} Machine Stories. Tous droits réservés.
           </p>
-          <div className="flex items-center gap-4">
-            <Link href="/sitemap.xml" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+          <div className="flex items-center gap-6">
+            <Link href="/sitemap.xml" className="text-sm text-gray-400 hover:text-white transition-colors">
               Sitemap
             </Link>
-            <Link href="/robots.txt" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+            <Link href="/robots.txt" className="text-sm text-gray-400 hover:text-white transition-colors">
               Robots.txt
             </Link>
           </div>

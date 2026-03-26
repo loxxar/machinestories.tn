@@ -43,14 +43,14 @@ function SearchResults() {
   }, [query, allArticles]);
 
   if (loading) {
-    return <div className="text-gray-600 dark:text-gray-400">Chargement...</div>;
+    return <div className="text-gray-400">Chargement...</div>;
   }
 
   if (searched) {
     if (results.length > 0) {
       return (
         <div>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
+          <p className="text-gray-400 mb-6">
             {results.length} résultat{results.length !== 1 ? 's' : ''} pour &quot;{query}&quot;
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -63,13 +63,13 @@ function SearchResults() {
     } else {
       return (
         <div className="text-center py-12">
-          <svg className="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <svg className="w-16 h-16 mx-auto text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
-          <h2 className="text-xl font-heading font-semibold text-gray-900 dark:text-white mb-2">
+          <h2 className="text-xl font-heading font-semibold text-white mb-2">
             Aucun résultat
           </h2>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-gray-400">
             Aucun article ne correspond à &quot;{query}&quot;. Essayez d&apos;autres termes.
           </p>
         </div>
@@ -79,13 +79,13 @@ function SearchResults() {
 
   return (
     <div className="text-center py-12">
-      <svg className="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <svg className="w-16 h-16 mx-auto text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
       </svg>
-      <h2 className="text-xl font-heading font-semibold text-gray-900 dark:text-white mb-2">
-        Rechercher sur Nodes.tn
+      <h2 className="text-xl font-heading font-semibold text-white mb-2">
+        Rechercher sur Machine Stories
       </h2>
-      <p className="text-gray-600 dark:text-gray-400">
+      <p className="text-gray-400">
         Entrez un terme pour rechercher dans nos articles sur l&apos;IA.
       </p>
     </div>

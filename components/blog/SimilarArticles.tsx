@@ -13,8 +13,8 @@ export default function SimilarArticles({ articles }: SimilarArticlesProps) {
   if (articles.length === 0) return null;
 
   return (
-    <section aria-labelledby="similar-heading" className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
-      <h2 id="similar-heading" className="font-heading text-xl font-bold text-gray-900 dark:text-white mb-6">
+    <section aria-labelledby="similar-heading" className="mt-12 pt-8 border-t border-white/10">
+      <h2 id="similar-heading" className="font-heading text-xl font-bold text-white mb-6">
         Articles similaires
       </h2>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -40,12 +40,12 @@ export default function SimilarArticles({ articles }: SimilarArticlesProps) {
                   <Badge variant="primary" href={`/categorie/${categorySlug}`} className="mb-2">
                     {article.category}
                   </Badge>
-                  <h3 className="font-heading text-base font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2">
-                    <Link href={article.route} className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                  <h3 className="font-heading text-base font-semibold text-white mb-2 line-clamp-2">
+                    <Link href={article.route} className="hover:text-violet-300 transition-colors">
                       {article.title}
                     </Link>
                   </h3>
-                  <time dateTime={formatDateISO(article.date)} className="text-xs text-gray-500 dark:text-gray-400">
+                  <time dateTime={formatDateISO(article.date)} className="text-xs text-gray-500">
                     {formatDate(article.date)}
                   </time>
                 </div>

@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { getArticlesByCategory, getAllCategories, getPaginatedArticles } from '@/lib/content';
+import { getArticlesByCategory, getAllCategories } from '@/lib/content';
 import ArticleCard from '@/components/blog/ArticleCard';
 import Container from '@/components/ui/Container';
 import Breadcrumb from '@/components/layout/Breadcrumb';
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: `${category} - Blog IA`,
     description: `Découvrez tous nos articles sur ${category.toLowerCase()} : tutoriels, analyses et actualités sur ce sujet IA.`,
     alternates: {
-      canonical: `https://nodes.tn/categorie/${slug}`,
+      canonical: `https://machinestories.tn/categorie/${slug}`,
     },
   };
 }
@@ -66,16 +66,16 @@ export default async function CategoryPage({ params }: PageProps) {
       ]} />
 
       <header className="mb-12">
-        <h1 className="font-heading text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        <h1 className="font-heading text-3xl md:text-4xl font-bold text-white mb-4">
           {category}
         </h1>
-        <p className="text-gray-600 dark:text-gray-400 max-w-2xl">
+        <p className="text-gray-400 max-w-2xl">
           {CATEGORY_DESCRIPTIONS[slug] || `Découvrez tous nos articles sur ${category.toLowerCase()}.`}
         </p>
       </header>
 
       {articles.length === 0 ? (
-        <p className="text-gray-600 dark:text-gray-400">Aucun article dans cette catégorie pour le moment.</p>
+        <p className="text-gray-400">Aucun article dans cette catégorie pour le moment.</p>
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {articles.map((article) => (

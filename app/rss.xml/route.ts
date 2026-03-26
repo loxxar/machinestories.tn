@@ -2,17 +2,17 @@ import { getAllArticles } from '@/lib/content';
 
 export async function GET() {
   const articles = getAllArticles();
-  const baseUrl = 'https://nodes.tn';
+  const baseUrl = 'https://machinestories.tn';
 
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
-    <title>Nodes.tn - Blog Intelligence Artificielle</title>
+    <title>Machine Stories - Blog Intelligence Artificielle</title>
     <link>${baseUrl}</link>
     <description>Blog dédié à l'intelligence artificielle : actualités, tutoriels, analyses et guides sur l'IA.</description>
     <language>fr-fr</language>
-    <managingEditor>contact@nodes.tn (Nodes.tn)</managingEditor>
-    <webMaster>contact@nodes.tn (Nodes.tn)</webMaster>
+    <managingEditor>contact@machinestories.tn (Machine Stories)</managingEditor>
+    <webMaster>contact@machinestories.tn (Machine Stories)</webMaster>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <atom:link href="${baseUrl}/rss.xml" rel="self" type="application/rss+xml"/>
     ${articles

@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: `Tag: ${tag} - Blog IA`,
     description: `Découvrez tous nos articles tagués "${tag}" sur l'intelligence artificielle.`,
     alternates: {
-      canonical: `https://nodes.tn/tag/${slug}`,
+      canonical: `https://machinestories.tn/tag/${slug}`,
     },
   };
 }
@@ -55,16 +55,16 @@ export default async function TagPage({ params }: PageProps) {
       ]} />
 
       <header className="mb-12">
-        <h1 className="font-heading text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        <h1 className="font-heading text-3xl md:text-4xl font-bold text-white mb-4">
           Tag: {tag}
         </h1>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-gray-400">
           {articles.length} article{articles.length !== 1 ? 's' : ''} avec ce tag
         </p>
       </header>
 
       {articles.length === 0 ? (
-        <p className="text-gray-600 dark:text-gray-400">Aucun article avec ce tag pour le moment.</p>
+        <p className="text-gray-400">Aucun article avec ce tag pour le moment.</p>
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {articles.map((article) => (

@@ -38,7 +38,7 @@ function parseArticle(filename: string): Article | null {
       description: data.description || '',
       date: data.date || new Date().toISOString(),
       lastModified: data.lastModified,
-      author: data.author || 'Équipe Nodes.tn',
+      author: data.author || 'Machine Stories',
       category: data.category || 'Actualités IA',
       tags: data.tags || [],
       image: data.image,
@@ -125,19 +125,19 @@ export function getPaginatedArticles(page: number, perPage = 10): {
 }
 
 export function generateArticleMetadata(article: Article) {
-  const url = `https://nodes.tn/blog/${article.slug}`;
+  const url = `https://machinestories.tn/blog/${article.slug}`;
   return {
-    title: `${article.title} | Nodes.tn - Blog Intelligence Artificielle`,
+    title: `${article.title} | Machine Stories - Blog Intelligence Artificielle`,
     description: article.description,
     authors: [{ name: article.author }],
     openGraph: {
       title: article.title,
       description: article.description,
       url,
-      siteName: 'Nodes.tn',
+      siteName: 'Machine Stories',
       images: [
         {
-          url: `https://nodes.tn/api/og/${article.slug}`,
+          url: `https://machinestories.tn/api/og/${article.slug}`,
           width: 1200,
           height: 630,
         },
@@ -153,7 +153,7 @@ export function generateArticleMetadata(article: Article) {
       card: 'summary_large_image',
       title: article.title,
       description: article.description,
-      images: [`https://nodes.tn/api/og/${article.slug}`],
+      images: [`https://machinestories.tn/api/og/${article.slug}`],
     },
     alternates: {
       canonical: url,

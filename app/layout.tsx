@@ -19,36 +19,36 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://nodes.tn'),
+  metadataBase: new URL('https://machinestories.tn'),
   title: {
-    default: 'Nodes.tn - Blog Intelligence Artificielle',
-    template: '%s | Nodes.tn',
+    default: 'Machine Stories - Blog Intelligence Artificielle',
+    template: '%s | Machine Stories',
   },
-  description: "Blog dédié à l'intelligence artificielle : actualités, tutoriels, analyses et guides sur l'IA. Découvrez les dernières innovations en machine learning, deep learning et IA générative.",
-  keywords: ['intelligence artificielle', 'IA', 'machine learning', 'deep learning', 'chatgpt', 'IA générative', 'tutoriels IA', 'nodes.tn'],
-  authors: [{ name: 'Nodes.tn' }],
-  creator: 'Nodes.tn',
-  publisher: 'Nodes.tn',
+  description: "Découvrez l'univers fascinant de l'intelligence artificielle : actualités, tutoriels, analyses et guides sur l'IA. Restez informé sur le machine learning, deep learning et IA générative.",
+  keywords: ['intelligence artificielle', 'IA', 'machine learning', 'deep learning', 'chatgpt', 'IA générative', 'tutoriels IA', 'machine stories'],
+  authors: [{ name: 'Machine Stories' }],
+  creator: 'Machine Stories',
+  publisher: 'Machine Stories',
   openGraph: {
     type: 'website',
     locale: 'fr_FR',
-    url: 'https://nodes.tn',
-    siteName: 'Nodes.tn',
-    title: 'Nodes.tn - Blog Intelligence Artificielle',
-    description: 'Blog dédié à l\'intelligence artificielle : actualités, tutoriels, analyses et guides sur l\'IA.',
+    url: 'https://machinestories.tn',
+    siteName: 'Machine Stories',
+    title: 'Machine Stories - Blog Intelligence Artificielle',
+    description: "Découvrez l'univers fascinant de l'intelligence artificielle : actualités, tutoriels, analyses et guides sur l'IA.",
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Nodes.tn - Blog Intelligence Artificielle',
+        alt: 'Machine Stories - Blog Intelligence Artificielle',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nodes.tn - Blog Intelligence Artificielle',
-    description: 'Blog dédié à l\'intelligence artificielle : actualités, tutoriels, analyses et guides sur l\'IA.',
+    title: 'Machine Stories - Blog Intelligence Artificielle',
+    description: "Découvrez l'univers fascinant de l'intelligence artificielle : actualités, tutoriels, analyses et guides sur l'IA.",
     images: ['/og-image.png'],
   },
   robots: {
@@ -63,19 +63,19 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: 'https://nodes.tn',
+    canonical: 'https://machinestories.tn',
   },
 };
 
 const websiteJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'Nodes.tn',
-  description: 'Blog dédié à l\'intelligence artificielle : actualités, tutoriels, analyses et guides sur l\'IA',
-  url: 'https://nodes.tn',
+  name: 'Machine Stories',
+  description: "Blog dédié à l'intelligence artificielle : actualités, tutoriels, analyses et guides sur l'IA",
+  url: 'https://machinestories.tn',
   potentialAction: {
     '@type': 'SearchAction',
-    target: 'https://nodes.tn/recherche?q={search_term_string}',
+    target: 'https://machinestories.tn/recherche?q={search_term_string}',
     'query-input': 'required name=search_term_string',
   },
 };
@@ -90,7 +90,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-        <link rel="alternate" type="application/rss+xml" title="Nodes.tn RSS Feed" href="/rss.xml" />
+        <link rel="alternate" type="application/rss+xml" title="Machine Stories RSS Feed" href="/rss.xml" />
         <ThemeScript />
         <JsonLd data={websiteJsonLd} />
       </head>

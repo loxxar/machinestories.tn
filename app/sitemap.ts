@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { getAllArticles, getAllCategories, getAllTags } from '@/lib/content';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://nodes.tn';
+  const baseUrl = 'https://machinestories.tn';
   const articles = getAllArticles();
   const categories = getAllCategories();
   const tags = getAllTags();

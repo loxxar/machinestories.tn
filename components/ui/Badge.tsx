@@ -3,22 +3,21 @@ import { cn } from '@/lib/utils';
 
 interface BadgeProps {
   children: React.ReactNode;
-  variant?: 'default' | 'primary' | 'secondary';
+  variant?: 'default' | 'primary';
   href?: string;
   className?: string;
 }
 
 export default function Badge({ children, variant = 'default', href, className }: BadgeProps) {
   const variants = {
-    default: 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300',
-    primary: 'bg-primary-100 text-primary-800 dark:bg-primary-900/30 dark:text-primary-400',
-    secondary: 'bg-accent-100 text-accent-800 dark:bg-accent-900/30 dark:text-accent-400',
+    default: 'bg-white/10 text-gray-300 hover:bg-white/20',
+    primary: 'bg-violet-500/20 text-violet-300 hover:bg-violet-500/30',
   };
 
   const classes = cn(
     'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium transition-colors',
     variants[variant],
-    href && 'hover:bg-gray-200 dark:hover:bg-gray-700',
+    href && 'hover:opacity-80',
     className
   );
 

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: 'Blog - Intelligence Artificielle',
   description: 'Tous les articles sur l\'intelligence artificielle : tutoriels, actualités, analyses et guides sur le machine learning, deep learning, IA générative et ChatGPT.',
   alternates: {
-    canonical: 'https://nodes.tn/blog',
+    canonical: 'https://machinestories.tn/blog',
   },
 };
 
@@ -41,10 +41,10 @@ export default async function BlogPage({ params }: PageProps) {
       <Breadcrumb items={[{ name: 'Blog', href: '/blog' }]} />
 
       <header className="mb-12">
-        <h1 className="font-heading text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        <h1 className="font-heading text-3xl md:text-4xl font-bold text-white mb-4">
           Blog Intelligence Artificielle
         </h1>
-        <p className="text-gray-600 dark:text-gray-400 max-w-2xl">
+        <p className="text-gray-400 max-w-2xl">
           Découvrez tous nos articles sur l&apos;IA : tutoriels pratiques, analyses approfondies et dernières actualités sur le machine learning, le deep learning et l&apos;IA générative.
         </p>
       </header>
@@ -62,20 +62,20 @@ export default async function BlogPage({ params }: PageProps) {
               {currentPage > 1 && (
                 <Link
                   href={currentPage === 2 ? '/blog' : `/blog/page/${currentPage - 1}`}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-900 border border-white/10 rounded-lg hover:bg-gray-800 transition-colors"
                 >
                   ← Précédent
                 </Link>
               )}
               
-              <span className="px-4 py-2 text-sm text-gray-500 dark:text-gray-400">
+              <span className="px-4 py-2 text-sm text-gray-500">
                 Page {currentPage} sur {totalPages}
               </span>
 
               {currentPage < totalPages && (
                 <Link
                   href={`/blog/page/${currentPage + 1}`}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-900 border border-white/10 rounded-lg hover:bg-gray-800 transition-colors"
                 >
                   Suivant →
                 </Link>
@@ -86,7 +86,7 @@ export default async function BlogPage({ params }: PageProps) {
 
         <aside className="space-y-8">
           <div>
-            <h2 className="font-heading text-sm font-semibold text-gray-900 dark:text-white mb-4 uppercase tracking-wide">
+            <h2 className="font-heading text-sm font-semibold text-white mb-4 uppercase tracking-wide">
               Catégories
             </h2>
             <div className="flex flex-wrap gap-2">
@@ -102,7 +102,7 @@ export default async function BlogPage({ params }: PageProps) {
           </div>
 
           <div>
-            <h2 className="font-heading text-sm font-semibold text-gray-900 dark:text-white mb-4 uppercase tracking-wide">
+            <h2 className="font-heading text-sm font-semibold text-white mb-4 uppercase tracking-wide">
               Tags populaires
             </h2>
             <div className="flex flex-wrap gap-2">

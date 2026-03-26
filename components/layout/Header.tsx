@@ -14,40 +14,38 @@ const categories = [
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md">
+    <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-gray-950/80 backdrop-blur-xl">
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between" aria-label="Navigation principale">
-        <Link href="/" className="flex items-center gap-2" aria-label="Nodes.tn - Accueil">
-          <svg className="w-8 h-8 text-primary-600 dark:text-primary-400" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-            <circle cx="16" cy="16" r="14" stroke="currentColor" strokeWidth="2" />
-            <circle cx="16" cy="10" r="3" fill="currentColor" />
-            <circle cx="10" cy="20" r="2.5" fill="currentColor" />
-            <circle cx="22" cy="20" r="2.5" fill="currentColor" />
-            <line x1="16" y1="13" x2="10" y2="18" stroke="currentColor" strokeWidth="1.5" />
-            <line x1="16" y1="13" x2="22" y2="18" stroke="currentColor" strokeWidth="1.5" />
-          </svg>
-          <span className="font-heading text-xl font-bold text-gray-900 dark:text-white">
-            Nodes<span className="text-primary-600 dark:text-primary-400">.tn</span>
+        <Link href="/" className="flex items-center gap-3 group" aria-label="Machine Stories - Accueil">
+          <div className="relative w-10 h-10">
+            <div className="absolute inset-0 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-xl rotate-6 group-hover:rotate-12 transition-transform duration-300" />
+            <div className="absolute inset-0 bg-gray-950 rounded-xl flex items-center justify-center">
+              <span className="text-xl font-bold bg-gradient-to-br from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">M</span>
+            </div>
+          </div>
+          <span className="font-heading text-xl font-bold text-white">
+            Machine<span className="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">Stories</span>
           </span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-6">
-          <Link href="/blog" className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+        <div className="hidden md:flex items-center gap-8">
+          <Link href="/blog" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
             Blog
           </Link>
           <div className="relative group">
-            <button className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center gap-1">
+            <button className="text-sm font-medium text-gray-300 hover:text-white transition-colors flex items-center gap-1">
               Catégories
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-              <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow-xl py-2 min-w-[200px]">
+            <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+              <div className="bg-gray-900 border border-white/10 rounded-xl shadow-2xl py-2 min-w-[200px] backdrop-blur-xl">
                 {categories.map((cat) => (
                   <Link
                     key={cat.slug}
                     href={`/categorie/${cat.slug}`}
-                    className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-primary-600 dark:hover:text-primary-400"
+                    className="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
                   >
                     {cat.name}
                   </Link>
@@ -55,10 +53,10 @@ export default function Header() {
               </div>
             </div>
           </div>
-          <Link href="/a-propos" className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+          <Link href="/a-propos" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
             À propos
           </Link>
-          <Link href="/contact" className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+          <Link href="/contact" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
             Contact
           </Link>
         </div>
@@ -66,7 +64,7 @@ export default function Header() {
         <div className="flex items-center gap-3">
           <Link
             href="/recherche"
-            className="p-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+            className="p-2 text-gray-300 hover:text-white transition-colors"
             aria-label="Rechercher"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -85,7 +83,7 @@ function ThemeToggle() {
   return (
     <button
       id="theme-toggle"
-      className="p-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+      className="p-2 text-gray-300 hover:text-white transition-colors"
       aria-label="Basculer le thème"
     >
       <svg className="w-5 h-5 hidden dark:block" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
@@ -102,7 +100,7 @@ function MobileMenu({ categories }: { categories: { name: string; slug: string }
   return (
     <div className="md:hidden relative group">
       <button
-        className="p-2 text-gray-700 dark:text-gray-300"
+        className="p-2 text-gray-300"
         aria-label="Menu"
         aria-expanded="false"
       >
@@ -111,25 +109,25 @@ function MobileMenu({ categories }: { categories: { name: string; slug: string }
         </svg>
       </button>
       <div className="absolute right-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow-xl py-2 min-w-[200px]">
-          <Link href="/blog" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
+        <div className="bg-gray-900 border border-white/10 rounded-xl shadow-2xl py-2 min-w-[200px]">
+          <Link href="/blog" className="block px-4 py-2 text-sm text-gray-300 hover:text-white">
             Blog
           </Link>
-          <div className="border-t border-gray-200 dark:border-gray-800 my-1" />
+          <div className="border-t border-white/10 my-1" />
           {categories.map((cat) => (
             <Link
               key={cat.slug}
               href={`/categorie/${cat.slug}`}
-              className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+              className="block px-4 py-2 text-sm text-gray-300 hover:text-white"
             >
               {cat.name}
             </Link>
           ))}
-          <div className="border-t border-gray-200 dark:border-gray-800 my-1" />
-          <Link href="/a-propos" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
+          <div className="border-t border-white/10 my-1" />
+          <Link href="/a-propos" className="block px-4 py-2 text-sm text-gray-300 hover:text-white">
             À propos
           </Link>
-          <Link href="/contact" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
+          <Link href="/contact" className="block px-4 py-2 text-sm text-gray-300 hover:text-white">
             Contact
           </Link>
         </div>

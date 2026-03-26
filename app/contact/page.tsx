@@ -4,9 +4,9 @@ import Breadcrumb from '@/components/layout/Breadcrumb';
 
 export const metadata: Metadata = {
   title: 'Contact',
-  description: 'Contactez l\'équipe de Nodes.tn. Questions, suggestions d\'articles, partenariats ou contributions - nous sommes à votre écoute.',
+  description: 'Contactez l\'équipe de Machine Stories. Questions, suggestions d\'articles, partenariats ou contributions - nous sommes à votre écoute.',
   alternates: {
-    canonical: 'https://nodes.tn/contact',
+    canonical: 'https://machinestories.tn/contact',
   },
 };
 
@@ -15,19 +15,19 @@ export default function ContactPage() {
     <Container className="py-12">
       <Breadcrumb items={[{ name: 'Contact', href: '/contact' }]} />
 
-      <div className="max-w-2xl">
-        <header className="mb-12">
-          <h1 className="font-heading text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+      <div className="max-w-2xl mx-auto">
+        <header className="mb-12 text-center">
+          <h1 className="font-heading text-3xl md:text-4xl font-bold text-white mb-4">
             Contactez-nous
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400">
+          <p className="text-lg text-gray-400">
             Une question, une suggestion d&apos;article ou un partenariat ? Nous sommes à votre écoute.
           </p>
         </header>
 
         <form className="space-y-6" action="#" method="POST">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
               Nom
             </label>
             <input
@@ -35,12 +35,12 @@ export default function ContactPage() {
               id="name"
               name="name"
               required
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="w-full px-4 py-3 border border-white/10 rounded-lg bg-gray-900/50 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
             />
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
               Email
             </label>
             <input
@@ -48,19 +48,19 @@ export default function ContactPage() {
               id="email"
               name="email"
               required
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="w-full px-4 py-3 border border-white/10 rounded-lg bg-gray-900/50 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
             />
           </div>
 
           <div>
-            <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-2">
               Sujet
             </label>
             <select
               id="subject"
               name="subject"
               required
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="w-full px-4 py-3 border border-white/10 rounded-lg bg-gray-900/50 text-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
             >
               <option value="">Sélectionnez un sujet</option>
               <option value="question">Question générale</option>
@@ -73,7 +73,7 @@ export default function ContactPage() {
           </div>
 
           <div>
-            <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
               Message
             </label>
             <textarea
@@ -81,33 +81,33 @@ export default function ContactPage() {
               name="message"
               rows={6}
               required
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 resize-none"
+              className="w-full px-4 py-3 border border-white/10 rounded-lg bg-gray-900/50 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent resize-none"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-950"
+            className="w-full px-6 py-4 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-medium rounded-lg hover:shadow-lg hover:shadow-violet-500/25 transition-all"
           >
             Envoyer le message
           </button>
         </form>
 
-        <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
-          <h2 className="font-heading text-lg font-semibold text-gray-900 dark:text-white mb-4">
+        <div className="mt-12 pt-8 border-t border-white/10">
+          <h2 className="font-heading text-lg font-semibold text-white mb-4">
             Autres moyens de nous contacter
           </h2>
           <div className="space-y-3">
-            <p className="text-gray-600 dark:text-gray-400">
-              <strong className="text-gray-900 dark:text-white">Twitter/X :</strong>{' '}
-              <a href="https://twitter.com/nodes_tn" className="text-primary-600 dark:text-primary-400 hover:underline" target="_blank" rel="noopener noreferrer">
-                @nodes_tn
+            <p className="text-gray-400">
+              <strong className="text-white">Twitter/X :</strong>{' '}
+              <a href="https://twitter.com/machine_stories" className="text-violet-400 hover:text-violet-300 transition-colors" target="_blank" rel="noopener noreferrer">
+                @machine_stories
               </a>
             </p>
-            <p className="text-gray-600 dark:text-gray-400">
-              <strong className="text-gray-900 dark:text-white">LinkedIn :</strong>{' '}
-              <a href="https://linkedin.com/company/nodes-tn" className="text-primary-600 dark:text-primary-400 hover:underline" target="_blank" rel="noopener noreferrer">
-                Nodes.tn
+            <p className="text-gray-400">
+              <strong className="text-white">LinkedIn :</strong>{' '}
+              <a href="https://linkedin.com/company/machine-stories" className="text-violet-400 hover:text-violet-300 transition-colors" target="_blank" rel="noopener noreferrer">
+                Machine Stories
               </a>
             </p>
           </div>
