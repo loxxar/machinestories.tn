@@ -39,20 +39,20 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
 
   return (
     <nav aria-label="Table des matières" className="sticky top-24">
-      <h2 className="font-heading text-sm font-semibold text-gray-900 dark:text-white mb-4 uppercase tracking-wide">
+      <h2 className="font-heading text-xs font-semibold text-slate-400 mb-4 uppercase tracking-wide">
         Sommaire
       </h2>
-      <ul className="space-y-2">
+      <ul className="space-y-2 border-l border-white/10">
         {headings.map((heading) => (
           <li key={heading.id}>
             <a
               href={`#${heading.id}`}
               className={`
-                block text-sm transition-colors
-                ${heading.level === 2 ? 'pl-0' : heading.level === 3 ? 'pl-3' : 'pl-6'}
+                block text-sm transition-colors py-1 border-l-2 -ml-px
+                ${heading.level === 2 ? 'pl-4' : heading.level === 3 ? 'pl-6' : 'pl-8'}
                 ${activeId === heading.id 
-                  ? 'text-primary-600 dark:text-primary-400 font-medium' 
-                  : 'text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400'}
+                  ? 'text-cyan-400 border-cyan-400 font-medium' 
+                  : 'text-slate-500 border-transparent hover:text-slate-300 hover:border-slate-500'}
               `}
               onClick={(e) => {
                 e.preventDefault();

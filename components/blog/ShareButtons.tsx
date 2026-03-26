@@ -11,7 +11,7 @@ interface ShareButtonsProps {
 export default function ShareButtons({ url, title }: ShareButtonsProps) {
   const [copied, setCopied] = useState(false);
 
-  const fullUrl = `https://nodes.tn${url}`;
+  const fullUrl = `https://machinestories.tn${url}`;
   const encodedUrl = encodeURIComponent(fullUrl);
   const encodedTitle = encodeURIComponent(title);
 
@@ -30,14 +30,14 @@ export default function ShareButtons({ url, title }: ShareButtonsProps) {
 
   return (
     <div className="flex items-center gap-3">
-      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Partager :</span>
+      <span className="text-sm font-medium text-slate-300">Partager :</span>
       
       <a
         href={twitterUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="p-2 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors"
-        aria-label="Partager sur Twitter"
+        className="p-2 text-slate-400 hover:text-white transition-colors"
+        aria-label="Partager sur X (Twitter)"
       >
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -48,7 +48,7 @@ export default function ShareButtons({ url, title }: ShareButtonsProps) {
         href={linkedInUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+        className="p-2 text-slate-400 hover:text-white transition-colors"
         aria-label="Partager sur LinkedIn"
       >
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -58,7 +58,7 @@ export default function ShareButtons({ url, title }: ShareButtonsProps) {
 
       <button
         onClick={handleCopy}
-        className="p-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+        className="p-2 text-slate-400 hover:text-cyan-400 transition-colors"
         aria-label={copied ? 'Lien copié' : 'Copier le lien'}
       >
         {copied ? (

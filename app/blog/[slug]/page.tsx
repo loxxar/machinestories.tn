@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getAllArticles, getArticleBySlug, getSimilarArticles, generateArticleMetadata } from '@/lib/content';
-import { formatDate, formatDateISO } from '@/lib/utils';
+import { formatDate, formatDateISO, slugify } from '@/lib/utils';
 import Container from '@/components/ui/Container';
 import Breadcrumb from '@/components/layout/Breadcrumb';
 import Badge from '@/components/ui/Badge';
@@ -50,7 +50,7 @@ export default async function ArticlePage({ params }: PageProps) {
 
   const similarArticles = getSimilarArticles(article, 3);
   const headings = extractHeadings(article.body.raw);
-  const categorySlug = article.category.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  const categorySlug = slugify(article.category);
 
   return (
     <>
@@ -59,7 +59,11 @@ export default async function ArticlePage({ params }: PageProps) {
       
       <article className="py-8">
         <Container>
-          <Breadcrumb items={[{ name: 'Blog', href: '/blog' }, { name: article.title, href: article.route }]} />
+          <Breadcrumb items={[
+            { name: 'Blog', href: '/blog' },
+            { name: article.category, href: `/categorie/${categorySlug}` },
+            { name: article.title, href: article.route }
+          ]} />
 
           <header className="max-w-3xl mx-auto mb-6">
             <div className="flex flex-wrap items-center gap-2 mb-3 text-xs">
@@ -76,7 +80,7 @@ export default async function ArticlePage({ params }: PageProps) {
 
             <div className="flex flex-wrap gap-2 mb-3">
               {article.tags.map((tag) => {
-                const tagSlug = tag.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                const tagSlug = slugify(tag);
                 return <Badge key={tag} variant="default" href={`/tag/${tagSlug}`}>{tag}</Badge>;
               })}
             </div>
