@@ -28,24 +28,24 @@ export default function Header() {
         </Link>
 
         <div className="hidden md:flex items-center gap-6">
-          <Link href="/blog" className="text-sm text-slate-300 hover:text-white transition-colors">Blog</Link>
+          <Link href="/blog" className="text-sm text-slate-300 hover:text-white hover:text-cyan-300 transition-colors duration-200">Blog</Link>
           <div className="relative group">
-            <button className="text-sm text-slate-300 hover:text-white transition-colors flex items-center gap-1">
+            <button className="text-sm text-slate-300 hover:text-white hover:text-cyan-300 transition-colors duration-200 flex items-center gap-1">
               Catégories
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
             </button>
             <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
               <div className="bg-slate-900 border border-white/10 rounded-lg shadow-xl py-1.5 min-w-[160px]">
                 {categories.map((cat) => (
-                  <Link key={cat.slug} href={`/categorie/${cat.slug}`} className="block px-3 py-1.5 text-sm text-slate-300 hover:text-white hover:bg-white/5 transition-colors">
+                  <Link key={cat.slug} href={`/categorie/${cat.slug}`} className="block px-3 py-1.5 text-sm text-slate-300 hover:text-white hover:text-cyan-300 hover:bg-white/5 transition-colors duration-200">
                     {cat.name}
                   </Link>
                 ))}
               </div>
             </div>
           </div>
-          <Link href="/a-propos" className="text-sm text-slate-300 hover:text-white transition-colors">À propos</Link>
-          <Link href="/contact" className="text-sm text-slate-300 hover:text-white transition-colors">Contact</Link>
+          <Link href="/a-propos" className="text-sm text-slate-300 hover:text-white hover:text-cyan-300 transition-colors duration-200">À propos</Link>
+          <Link href="/contact" className="text-sm text-slate-300 hover:text-white hover:text-cyan-300 transition-colors duration-200">Contact</Link>
         </div>
 
         <div className="flex items-center gap-2">

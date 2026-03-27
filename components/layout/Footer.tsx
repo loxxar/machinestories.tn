@@ -36,7 +36,7 @@ export default function Footer() {
             <ul className="space-y-1.5">
               {categories.slice(0, 4).map((cat) => (
                 <li key={cat.slug}>
-                  <Link href={`/categorie/${cat.slug}`} className="text-xs text-slate-400 hover:text-white transition-colors">
+                  <Link href={`/categorie/${cat.slug}`} className="text-xs text-slate-400 hover:text-white hover:text-cyan-300 transition-colors duration-200">
                     {cat.name}
                   </Link>
                 </li>
@@ -47,10 +47,10 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold text-white mb-3 text-xs">Pages</h3>
             <ul className="space-y-1.5">
-              <li><Link href="/blog" className="text-xs text-slate-400 hover:text-white transition-colors">Blog</Link></li>
-              <li><Link href="/a-propos" className="text-xs text-slate-400 hover:text-white transition-colors">À propos</Link></li>
-              <li><Link href="/contact" className="text-xs text-slate-400 hover:text-white transition-colors">Contact</Link></li>
-              <li><Link href="/recherche" className="text-xs text-slate-400 hover:text-white transition-colors">Recherche</Link></li>
+              <li><Link href="/blog" className="text-xs text-slate-400 hover:text-white hover:text-cyan-300 transition-colors duration-200">Blog</Link></li>
+              <li><Link href="/a-propos" className="text-xs text-slate-400 hover:text-white hover:text-cyan-300 transition-colors duration-200">À propos</Link></li>
+              <li><Link href="/contact" className="text-xs text-slate-400 hover:text-white hover:text-cyan-300 transition-colors duration-200">Contact</Link></li>
+              <li><Link href="/recherche" className="text-xs text-slate-400 hover:text-white hover:text-cyan-300 transition-colors duration-200">Recherche</Link></li>
             </ul>
           </div>
 

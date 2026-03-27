@@ -68,7 +68,7 @@ export default function ArticleCard({ article, featured = false }: ArticleCardPr
               src={article.image}
               alt={article.imageAlt || article.title}
               fill
-              className="object-cover transition-transform hover:scale-105"
+              className="object-cover transition-transform duration-500 ease-out hover:scale-110"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               loading="lazy"
             />
