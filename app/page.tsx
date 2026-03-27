@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { getAllArticles, getFeaturedArticles } from '@/lib/content';
 import ArticleCard from '@/components/blog/ArticleCard';
 import SearchBar from '@/components/blog/SearchBar';
@@ -23,12 +24,25 @@ export default function HomePage() {
   return (
     <>
       <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-slate-950">
-        <div className="absolute inset-0">
+        {/* Background image */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/blog/ia-futur-du-travail.png"
+            alt="Futur du travail avec l'IA"
+            fill
+            className="object-cover opacity-40"
+            priority
+          />
+        </div>
+
+        {/* Gradient overlays */}
+        <div className="absolute inset-0 z-5">
           <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-cyan-500/15 rounded-full blur-[100px]" />
           <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-blue-500/15 rounded-full blur-[100px]" />
         </div>
-        
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_0%,rgba(2,6,23,0.4)_50%,rgba(2,6,23,1)_100%)] z-10" />
+
+        {/* Dark gradient overlay for text readability */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(2,6,23,0.5)_0%,rgba(2,6,23,0.6)_50%,rgba(2,6,23,0.95)_100%)] z-10" />
         
         <Container className="relative z-20 py-16">
           <div className="max-w-4xl mx-auto text-center">
