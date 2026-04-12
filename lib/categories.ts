@@ -23,10 +23,11 @@ function readCategories(): Category[] {
     return [
       { name: 'Machine Learning', slug: 'machine-learning', icon: '🧠', description: 'Les algorithmes qui apprennent' },
       { name: 'Deep Learning', slug: 'deep-learning', icon: '🔮', description: 'Réseaux de neurones profonds' },
-      { name: 'IA Générative', slug: 'ia-generative', icon: '✨', description: 'Création de contenu par l\'IA' },
+      { name: 'IA Générative', slug: 'ia-generative', icon: '✨', description: "Création de contenu par l'IA" },
+      { name: 'SEO & IA', slug: 'seo-ia', icon: '📈', description: 'Optimisation SEO et Intelligence Artificielle' },
       { name: 'Actualités IA', slug: 'actualites-ia', icon: '📰', description: 'Dernières nouvelles du secteur' },
       { name: 'Tutoriels & Guides', slug: 'tutoriels-guides', icon: '📚', description: 'Apprenez pas à pas' },
-      { name: 'Outils & Applications', slug: 'outils-applications', icon: '🛠️', description: 'Découvrez les meilleurs outils' },
+      { name: 'Outils & Applications IA', slug: 'outils-applications', icon: '🛠️', description: 'Découvrez les meilleurs outils' },
       { name: 'Éthique & Société', slug: 'ethique-societe', icon: '⚖️', description: 'Enjeux et réflexions' },
       { name: 'Business & IA', slug: 'business-ia', icon: '💼', description: "L'IA dans l'entreprise" },
     ];
