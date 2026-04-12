@@ -121,22 +121,19 @@ Réponds UNIQUEMENT avec un JSON valide, sans backticks, sans texte avant ou apr
       
       // Nettoyage robuste
       const cleaned = aiContent
-        .replace(/^```json\s*/i, '')  // enlever ```json au début
-        .replace(/^```\s*/i, '')       // enlever ``` au début
-        .replace(/```\s*$/i, '')       // enlever ``` à la fin
+        .replace(/^```json\s*/i, '')
+        .replace(/^```\s*/i, '')
+        .replace(/```\s*$/i, '')
         .trim();
 
       console.log('Cleaned AI Content:', cleaned);
 
       let generatedJson;
       try {
-        // Extraction JSON si texte parasite avant/après
         const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
         if (!jsonMatch) throw new Error('JSON introuvable dans la réponse');
-
         generatedJson = JSON.parse(jsonMatch[0]);
 
-        // Vérification des champs obligatoires
         if (!generatedJson.title || !generatedJson.body || !generatedJson.slug) {
           throw new Error('Champs manquants dans le JSON généré');
         }
@@ -145,36 +142,52 @@ Réponds UNIQUEMENT avec un JSON valide, sans backticks, sans texte avant ou apr
         throw new Error(e.message || 'Le format JSON généré est invalide.');
       }
 
-      // Conversion Markdown -> HTML pour TipTap
-      const htmlBody = await marked.parse(generatedJson.body);
-
-      // Recherche Unsplash basée sur les tags et le sujet
-      let imageUrl = '';
-      let imageAlt = generatedJson.title;
-
-      try {
-        const searchQuery = (generatedJson.tags?.slice(0, 2).join(' ') || '') + ' ' + subject;
-        const unsplashRes = await fetch(
-          `https://api.unsplash.com/search/photos?query=${encodeURIComponent(searchQuery)}&per_page=1&orientation=landscape`,
-          {
-            headers: {
-              Authorization: `Client-ID ${process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY}`
-            }
+      // 1. Recherche Unsplash multiple (Couverture + 2 images corps)
+      const fetchUnsplash = async (query: string) => {
+        try {
+          const res = await fetch(
+            `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=1&orientation=landscape`,
+            { headers: { Authorization: `Client-ID ${process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY}` } }
+          );
+          if (res.ok) {
+            const data = await res.json();
+            return data.results?.[0];
           }
-        );
-        if (unsplashRes.ok) {
-          const unsplashData = await unsplashRes.json();
-          const photo = unsplashData.results?.[0];
-          if (photo) {
-            imageUrl = photo.urls?.regular || '';
-            imageAlt = photo.alt_description || generatedJson.title;
-          }
-        }
-      } catch (err) {
-        console.error('Unsplash fetch failed:', err);
-      }
+        } catch (e) { console.error('Unsplash error:', e); }
+        return null;
+      };
 
-      // 2. Sauvegarde via l'API locale
+      const [coverPhoto, photo1, photo2] = await Promise.all([
+        fetchUnsplash(generatedJson.slug.replace(/-/g, ' ')),
+        generatedJson.tags?.[0] ? fetchUnsplash(generatedJson.tags[0]) : Promise.resolve(null),
+        generatedJson.tags?.[1] ? fetchUnsplash(generatedJson.tags[1]) : Promise.resolve(null),
+      ]);
+
+      // 2. Injection des images dans le body Markdown
+      const photo1Tag = photo1 ? 
+        `\n<img src="${photo1.urls.regular}" alt="${photo1.alt_description || ''}" style="float:left; margin: 0 24px 16px 0; width:320px; border-radius:12px; border: 1px solid rgba(255,255,255,0.1);" />\n` 
+        : '';
+
+      const photo2Tag = photo2 ? 
+        `\n<img src="${photo2.urls.regular}" alt="${photo2.alt_description || ''}" style="float:right; margin: 0 0 16px 24px; width:320px; border-radius:12px; border: 1px solid rgba(255,255,255,0.1);" />\n` 
+        : '';
+
+      let bodyWithPhotos = generatedJson.body;
+      
+      // Injection après le 1er ## H2
+      bodyWithPhotos = bodyWithPhotos.replace(/(## .+\n)/, `$1${photo1Tag}`);
+
+      // Injection après le 3ème ## H2
+      let h2Count = 0;
+      bodyWithPhotos = bodyWithPhotos.replace(/## .+\n/g, (match: string) => {
+        h2Count++;
+        return h2Count === 3 ? match + photo2Tag : match;
+      });
+
+      // 3. Conversion Markdown -> HTML pour TipTap
+      const htmlBody = await marked.parse(bodyWithPhotos);
+
+      // 4. Sauvegarde via l'API locale
       const saveRes = await fetch('/api/admin/articles', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -187,8 +200,8 @@ Réponds UNIQUEMENT avec un JSON valide, sans backticks, sans texte avant ou apr
             author: 'Machine Stories',
             category: category,
             tags: generatedJson.tags || [],
-            image: imageUrl,
-            imageAlt: imageAlt,
+            image: coverPhoto?.urls?.regular || '',
+            imageAlt: coverPhoto?.alt_description || generatedJson.title,
             featured: false,
             draft: true,
           },

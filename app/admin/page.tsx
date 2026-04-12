@@ -24,6 +24,7 @@ export default function AdminPage() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [publishing, setPublishing] = useState<string | null>(null);
   const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
   const router = useRouter();
 
@@ -57,6 +58,40 @@ export default function AdminPage() {
       console.error('Erreur:', error);
     } finally {
       setDeleting(null);
+    }
+  };
+  
+  const handlePublish = async (fileSlug: string) => {
+    setPublishing(fileSlug);
+    try {
+      // 1. Récupérer les données complètes (nécessaire pour le corps MDX)
+      const res = await fetch(`/api/admin/articles/${fileSlug}`);
+      if (!res.ok) throw new Error('Échec de la récupération de l\'article');
+      const { article } = await res.json();
+      
+      // 2. Mettre à jour avec draft: false
+      const saveRes = await fetch(`/api/admin/articles/${fileSlug}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          frontmatter: { ...article, draft: false },
+          body: article.body.raw
+        }),
+      });
+      
+      if (saveRes.ok) {
+        // 3. Mise à jour immédiate de l'état local
+        setArticles(articles.map(a => 
+          a.fileSlug === fileSlug ? { ...a, draft: false } : a
+        ));
+      } else {
+        throw new Error('Échec de la sauvegarde');
+      }
+    } catch (error: any) {
+      console.error('Erreur de publication:', error);
+      alert(error.message || 'Une erreur est survenue lors de la publication');
+    } finally {
+      setPublishing(null);
     }
   };
 
@@ -160,20 +195,33 @@ export default function AdminPage() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex gap-2">
+                        {article.draft ? (
+                          <span className="px-2 py-1 text-xs bg-orange-100 text-orange-700 dark:bg-orange-900/20 dark:text-orange-400 rounded">
+                            Brouillon
+                          </span>
+                        ) : (
+                          <span className="px-2 py-1 text-xs bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400 rounded">
+                            Publié
+                          </span>
+                        )}
                         {article.featured && (
                           <span className="px-2 py-1 text-xs bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400 rounded">
                             Featured
-                          </span>
-                        )}
-                        {article.draft && (
-                          <span className="px-2 py-1 text-xs bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400 rounded">
-                            Draft
                           </span>
                         )}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right">
                       <div className="flex justify-end gap-2">
+                        {article.draft && (
+                          <button
+                            onClick={() => handlePublish(article.fileSlug)}
+                            disabled={publishing === article.fileSlug}
+                            className="px-3 py-1 text-sm text-green-600 hover:text-green-700 dark:text-green-400 disabled:opacity-50 font-medium"
+                          >
+                            {publishing === article.fileSlug ? '...' : 'Publier'}
+                          </button>
+                        )}
                         <Link
                           href={`/admin/articles/${article.fileSlug}`}
                           className="px-3 py-1 text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400"
@@ -183,7 +231,7 @@ export default function AdminPage() {
                         <button
                           onClick={() => handleDelete(article.fileSlug)}
                           disabled={deleting === article.fileSlug}
-                          className="px-3 py-1 text-sm text-red-600 hover:text-red-700 dark:text-red-400 disabled:opacity-50"
+                          className="px-3 py-1 text-sm text-red-600 hover:text-red-700 dark:text-red-400 disabled:opacity-50 font-medium"
                         >
                           {deleting === article.fileSlug ? '...' : 'Supprimer'}
                         </button>
