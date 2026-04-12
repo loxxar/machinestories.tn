@@ -165,24 +165,40 @@ Réponds UNIQUEMENT avec un JSON valide, sans backticks, sans texte avant ou apr
 
       // 2. Injection des images dans le body Markdown
       const photo1Tag = photo1 ? 
-        `\n<img src="${photo1.urls.regular}" alt="${photo1.alt_description || ''}" style="float:left; margin: 0 24px 16px 0; width:320px; border-radius:12px; border: 1px solid rgba(255,255,255,0.1);" />\n` 
+        `\n<img src="${photo1.urls.regular}" alt="${photo1.alt_description || ''}" class="float-left mr-6 mb-4 rounded-xl border border-white/10 w-72" />\n` 
         : '';
 
       const photo2Tag = photo2 ? 
-        `\n<img src="${photo2.urls.regular}" alt="${photo2.alt_description || ''}" style="float:right; margin: 0 0 16px 24px; width:320px; border-radius:12px; border: 1px solid rgba(255,255,255,0.1);" />\n` 
+        `\n<img src="${photo2.urls.regular}" alt="${photo2.alt_description || ''}" class="float-right ml-6 mb-4 rounded-xl border border-white/10 w-72" />\n` 
         : '';
 
       let bodyWithPhotos = generatedJson.body;
-      
-      // Injection après le 1er ## H2
-      bodyWithPhotos = bodyWithPhotos.replace(/(## .+\n)/, `$1${photo1Tag}`);
 
-      // Injection après le 3ème ## H2
-      let h2Count = 0;
-      bodyWithPhotos = bodyWithPhotos.replace(/## .+\n/g, (match: string) => {
-        h2Count++;
-        return h2Count === 3 ? match + photo2Tag : match;
-      });
+      // Bug 1 : Log cover image
+      console.log('Cover image URL:', coverPhoto?.urls?.regular);
+      
+      // Bug 2 : Log h2 count et injection robuste
+      const h2Matches = bodyWithPhotos.match(/^## .+/gm);
+      const h2Total = h2Matches?.length || 0;
+      console.log('H2 count found:', h2Total);
+
+      // Injection Photo 1 (après le 1er H2)
+      if (photo1 && h2Total >= 1) {
+        bodyWithPhotos = bodyWithPhotos.replace(/^(## .+)$/m, `$1\n${photo1Tag}`);
+      }
+
+      // Injection Photo 2 (après le 3ème H2, ou 2ème si < 3)
+      if (photo2) {
+        const targetH2 = h2Total >= 3 ? 3 : (h2Total >= 2 ? 2 : 0);
+        if (targetH2 > 0) {
+          let currentH2 = 0;
+          bodyWithPhotos = bodyWithPhotos.replace(/^## .+/gm, (match) => {
+            currentH2++;
+            if (currentH2 === targetH2) return match + '\n' + photo2Tag;
+            return match;
+          });
+        }
+      }
 
       // 3. Conversion Markdown -> HTML pour TipTap
       const htmlBody = await marked.parse(bodyWithPhotos);

@@ -110,6 +110,69 @@ export async function PUT(
   }
 }
 
+export async function PATCH(
+  request: Request,
+  { params }: { params: Promise<{ slug: string }> }
+) {
+  const session = await getSession();
+  if (!session?.authenticated) {
+    return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
+  }
+
+  try {
+    const { slug: fileSlug } = await params;
+    const { draft } = await request.json();
+    const fileName = `${fileSlug}.mdx`;
+    const apiUrl = `${GITHUB_API_BASE}/${fileName}`;
+
+    // 1. Récupérer le contenu actuel depuis GitHub
+    const getRes = await fetch(`${apiUrl}?ref=${GITHUB_BRANCH}`, {
+      headers: {
+        'Authorization': `Bearer ${GITHUB_TOKEN}`,
+        'Accept': 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+    });
+
+    if (!getRes.ok) {
+      return NextResponse.json({ error: 'Article non trouvé sur GitHub' }, { status: 404 });
+    }
+
+    const githubData = await getRes.json();
+    const decodedContent = Buffer.from(githubData.content, 'base64').toString('utf8');
+    
+    // 2. Parser et modifier uniquement draft
+    const { data: frontmatter, content: body } = matter(decodedContent);
+    const updatedContent = matter.stringify(body, { ...frontmatter, draft });
+
+    // 3. Sauvegarder sur GitHub
+    const putRes = await fetch(apiUrl, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${GITHUB_TOKEN}`,
+        'Accept': 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        message: `feat: update draft status for ${fileSlug}`,
+        content: Buffer.from(updatedContent).toString('base64'),
+        branch: GITHUB_BRANCH,
+        sha: githubData.sha,
+      }),
+    });
+
+    if (!putRes.ok) {
+      throw new Error('Échec de la mise à jour sur GitHub');
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error: any) {
+    console.error('API PATCH Error:', error);
+    return NextResponse.json({ error: error.message || 'Failed to patch article' }, { status: 500 });
+  }
+}
+
 export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ slug: string }> }

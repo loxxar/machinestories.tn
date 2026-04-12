@@ -64,28 +64,20 @@ export default function AdminPage() {
   const handlePublish = async (fileSlug: string) => {
     setPublishing(fileSlug);
     try {
-      // 1. Récupérer les données complètes (nécessaire pour le corps MDX)
-      const res = await fetch(`/api/admin/articles/${fileSlug}`);
-      if (!res.ok) throw new Error('Échec de la récupération de l\'article');
-      const { article } = await res.json();
-      
-      // 2. Mettre à jour avec draft: false
-      const saveRes = await fetch(`/api/admin/articles/${fileSlug}`, {
-        method: 'PUT',
+      const res = await fetch(`/api/admin/articles/${fileSlug}`, {
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          frontmatter: { ...article, draft: false },
-          body: article.body.raw
-        }),
+        body: JSON.stringify({ draft: false }),
       });
       
-      if (saveRes.ok) {
-        // 3. Mise à jour immédiate de l'état local
+      if (res.ok) {
+        // Mise à jour immédiate de l'état local
         setArticles(articles.map(a => 
           a.fileSlug === fileSlug ? { ...a, draft: false } : a
         ));
       } else {
-        throw new Error('Échec de la sauvegarde');
+        const data = await res.json();
+        throw new Error(data.error || 'Échec de la publication');
       }
     } catch (error: any) {
       console.error('Erreur de publication:', error);
