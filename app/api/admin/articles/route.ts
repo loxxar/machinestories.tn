@@ -1,6 +1,7 @@
 import { getSession } from '@/lib/auth';
 import { getAdminArticles, saveArticle } from '@/lib/content';
 import { NextResponse } from 'next/server';
+import path from 'path';
 import { slugify } from '@/lib/utils';
 
 const contentDirectory = path.join(process.cwd(), 'content/blog');
