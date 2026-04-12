@@ -1,0 +1,12 @@
+[
+  { "name": "SEO & IA", "slug": "seo-ia", "icon": "🔍", "description": "Référencement et intelligence artificielle" },
+  { "name": "IA Générative", "slug": "ia-generative", "icon": "✨", "description": "Création de contenu par l'IA" },
+  { "name": "Actualités IA", "slug": "actualites-ia", "icon": "📰", "description": "Dernières nouvelles du secteur" },
+  { "name": "Tutoriels & Guides", "slug": "tutoriels-guides", "icon": "📚", "description": "Apprenez pas à pas" },
+  { "name": "Outils & Applications", "slug": "outils-applications", "icon": "🛠️", "description": "Les meilleurs outils IA" },
+  { "name": "Business & IA", "slug": "business-ia", "icon": "💼", "description": "L'IA dans l'entreprise" },
+  { "name": "LLM & Modèles", "slug": "llm-modeles", "icon": "🧠", "description": "GPT, Gemini, Claude, Mistral..." },
+  { "name": "IA & Productivité", "slug": "ia-productivite", "icon": "⚡", "description": "Automatisation et efficacité" },
+  { "name": "Éthique & Société", "slug": "ethique-societe", "icon": "⚖️", "description": "Enjeux et réflexions" },
+  { "name": "Prompt Engineering", "slug": "prompt-engineering", "icon": "💬", "description": "Maîtriser les prompts" }
+]
