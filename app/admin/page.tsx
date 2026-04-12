@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import GenerateArticleModal from '@/components/admin/GenerateArticleModal';
+import { Sparkles } from 'lucide-react';
 
 interface Article {
   slug: string;
@@ -22,6 +24,7 @@ export default function AdminPage() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -93,9 +96,16 @@ export default function AdminPage() {
             >
               Catégories
             </Link>
+            <button
+              onClick={() => setIsGenerateModalOpen(true)}
+              className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors shadow-lg shadow-purple-500/20"
+            >
+              <Sparkles className="w-4 h-4" />
+              ✨ Générer
+            </button>
             <Link
               href="/admin/articles/new"
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors shadow-lg shadow-blue-500/20"
             >
               + Nouvel article
             </Link>
@@ -186,6 +196,12 @@ export default function AdminPage() {
           </div>
         )}
       </main>
+
+      <GenerateArticleModal 
+        isOpen={isGenerateModalOpen}
+        onClose={() => setIsGenerateModalOpen(false)}
+        onSuccess={fetchArticles}
+      />
     </div>
   );
 }

@@ -1,0 +1,252 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { X, Sparkles, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+
+interface GenerateArticleModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSuccess: () => void;
+}
+
+export default function GenerateArticleModal({ isOpen, onClose, onSuccess }: GenerateArticleModalProps) {
+  const [subject, setSubject] = useState('');
+  const [category, setCategory] = useState('');
+  const [categories, setCategories] = useState<string[]>([]);
+  const [status, setStatus] = useState<'idle' | 'generating' | 'success' | 'error'>('idle');
+  const [errorMsg, setErrorMsg] = useState('');
+
+  useEffect(() => {
+    if (isOpen) {
+      fetchCategories();
+      setStatus('idle');
+      setSubject('');
+      setErrorMsg('');
+    }
+  }, [isOpen]);
+
+  const fetchCategories = async () => {
+    try {
+      const res = await fetch('/api/admin/categories');
+      if (res.ok) {
+        const data = await res.json();
+        const cats = data.categories.map((c: any) => c.name);
+        setCategories(cats);
+        if (cats.length > 0) setCategory(cats[0]);
+      }
+    } catch (err) {
+      console.error('Failed to fetch categories');
+    }
+  };
+
+  const handleGenerate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!subject || !category) return;
+
+    setStatus('generating');
+    setErrorMsg('');
+
+    try {
+      const prompt = `Tu es un expert SEO et rédacteur spécialisé en intelligence artificielle.
+Rédige un article de blog complet en français sur le sujet : "${subject}"
+Catégorie : ${category}
+
+L'article doit être optimisé SEO avec cette structure EXACTE en JSON :
+{
+  "title": "Titre SEO optimisé (60 chars max)",
+  "slug": "slug-url-propre-sans-accents",
+  "description": "Meta description 150-160 caractères avec mot-clé principal",
+  "tags": ["tag1", "tag2", "tag3"],
+  "body": "Corps complet de l'article en markdown avec ## H2 et ### H3, minimum 1500 mots, inclure une section FAQ en fin d'article avec 3 questions/réponses, introduction accrocheuse avec le mot-clé principal dans les 100 premiers mots"
+}
+
+Réponds UNIQUEMENT avec le JSON, sans backticks, sans texte autour.`;
+
+      // 1. Appel direct OpenRouter depuis le client
+      const aiRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${process.env.NEXT_PUBLIC_OPENROUTER_API_KEY}`,
+          "Content-Type": "application/json",
+          "HTTP-Referer": "https://machinestories.tn"
+        },
+        body: JSON.stringify({
+          model: "google/gemini-2.0-flash-001",
+          max_tokens: 4000,
+          messages: [{ role: "user", content: prompt }]
+        })
+      });
+
+      if (!aiRes.ok) throw new Error('Échec de l\'appel à OpenRouter');
+
+      const aiData = await aiRes.json();
+      const aiContent = aiData.choices[0].message.content.trim();
+      
+      // Extraction et parsing JSON
+      const jsonMatch = aiContent.match(/\{[\s\S]*\}/);
+      const generatedJson = JSON.parse(jsonMatch ? jsonMatch[0] : aiContent);
+
+      // 2. Sauvegarde via l'API locale
+      const saveRes = await fetch('/api/admin/articles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          frontmatter: {
+            title: generatedJson.title,
+            slug: generatedJson.slug,
+            description: generatedJson.description,
+            category: category,
+            tags: generatedJson.tags || [],
+            draft: true // Forcé en brouillon
+          },
+          body: generatedJson.body
+        }),
+      });
+
+      if (saveRes.ok) {
+        setStatus('success');
+        onSuccess();
+      } else {
+        const err = await saveRes.json();
+        throw new Error(err.error || 'Échec de la sauvegarde');
+      }
+    } catch (err: any) {
+      console.error('Generation/Save error:', err);
+      setStatus('error');
+      setErrorMsg(err.message || 'Erreur lors de la génération');
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {/* Backdrop */}
+      <div 
+        className="absolute inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" 
+        onClick={status !== 'generating' ? onClose : undefined}
+      />
+
+      {/* Modal Content */}
+      <div className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in duration-200">
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-2">
+              <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                <Sparkles className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+              </div>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Générer avec l'IA</h2>
+            </div>
+            <button 
+              onClick={onClose}
+              disabled={status === 'generating'}
+              className="p-1 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+
+          {status === 'idle' && (
+            <form onSubmit={handleGenerate} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Sujet de l'article / Mots-clés cibles
+                </label>
+                <textarea
+                  required
+                  rows={4}
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                  placeholder="Ex: Pourquoi Gemini 2.0 Flash change la donne pour les développeurs Next.js"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all outline-none resize-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Catégorie
+                </label>
+                <select
+                  required
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white focus:ring-2 focus:ring-purple-500 transition-all outline-none"
+                >
+                  {categories.map((cat) => (
+                    <option key={cat} value={cat}>{cat}</option>
+                  ))}
+                </select>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-4 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl shadow-lg shadow-purple-500/30 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+              >
+                Générer l'article
+              </button>
+            </form>
+          )}
+
+          {status === 'generating' && (
+            <div className="py-12 flex flex-col items-center justify-center space-y-4">
+              <div className="relative">
+                <Loader2 className="w-12 h-12 text-purple-600 animate-spin" />
+                <Sparkles className="w-6 h-6 text-purple-400 absolute -top-2 -right-2 animate-pulse" />
+              </div>
+              <div className="text-center">
+                <p className="text-lg font-medium text-gray-900 dark:text-white">Génération en cours...</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Gemini 2.0 Flash rédige votre futur article (15-30s)</p>
+              </div>
+            </div>
+          )}
+
+          {status === 'success' && (
+            <div className="py-8 flex flex-col items-center justify-center space-y-4">
+              <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
+                <CheckCircle2 className="w-10 h-10 text-green-600 dark:text-green-400" />
+              </div>
+              <div className="text-center">
+                <p className="text-xl font-bold text-gray-900 dark:text-white">Article généré !</p>
+                <p className="text-gray-500 dark:text-gray-400 mt-2">
+                  L'article a été créé en tant que <strong>brouillon</strong> sur votre dépôt GitHub.
+                </p>
+              </div>
+              <button
+                onClick={onClose}
+                className="w-full py-3 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white font-semibold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+              >
+                Fermer
+              </button>
+            </div>
+          )}
+
+          {status === 'error' && (
+            <div className="py-8 flex flex-col items-center justify-center space-y-4">
+              <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center">
+                <AlertCircle className="w-10 h-10 text-red-600 dark:text-red-400" />
+              </div>
+              <div className="text-center">
+                <p className="text-xl font-bold text-gray-900 dark:text-white">Échec de la génération</p>
+                <p className="text-red-500 mt-2 text-sm px-4">{errorMsg}</p>
+              </div>
+              <div className="flex gap-3 w-full">
+                <button
+                  onClick={() => setStatus('idle')}
+                  className="flex-1 py-3 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white font-semibold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                >
+                  Réessayer
+                </button>
+                <button
+                  onClick={onClose}
+                  className="flex-1 py-3 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 font-semibold rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                >
+                  Annuler
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
