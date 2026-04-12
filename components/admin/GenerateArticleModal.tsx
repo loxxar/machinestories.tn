@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { X, Sparkles, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { marked } from 'marked';
 
 interface GenerateArticleModalProps {
   isOpen: boolean;
@@ -144,6 +145,35 @@ Réponds UNIQUEMENT avec un JSON valide, sans backticks, sans texte avant ou apr
         throw new Error(e.message || 'Le format JSON généré est invalide.');
       }
 
+      // Conversion Markdown -> HTML pour TipTap
+      const htmlBody = await marked.parse(generatedJson.body);
+
+      // Recherche Unsplash basée sur les tags et le sujet
+      let imageUrl = '';
+      let imageAlt = generatedJson.title;
+
+      try {
+        const searchQuery = (generatedJson.tags?.slice(0, 2).join(' ') || '') + ' ' + subject;
+        const unsplashRes = await fetch(
+          `https://api.unsplash.com/search/photos?query=${encodeURIComponent(searchQuery)}&per_page=1&orientation=landscape`,
+          {
+            headers: {
+              Authorization: `Client-ID ${process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY}`
+            }
+          }
+        );
+        if (unsplashRes.ok) {
+          const unsplashData = await unsplashRes.json();
+          const photo = unsplashData.results?.[0];
+          if (photo) {
+            imageUrl = photo.urls?.regular || '';
+            imageAlt = photo.alt_description || generatedJson.title;
+          }
+        }
+      } catch (err) {
+        console.error('Unsplash fetch failed:', err);
+      }
+
       // 2. Sauvegarde via l'API locale
       const saveRes = await fetch('/api/admin/articles', {
         method: 'POST',
@@ -157,12 +187,12 @@ Réponds UNIQUEMENT avec un JSON valide, sans backticks, sans texte avant ou apr
             author: 'Machine Stories',
             category: category,
             tags: generatedJson.tags || [],
-            image: '',
-            imageAlt: '',
+            image: imageUrl,
+            imageAlt: imageAlt,
             featured: false,
             draft: true,
           },
-          body: generatedJson.body
+          body: htmlBody
         }),
       });
 
