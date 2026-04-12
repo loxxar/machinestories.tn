@@ -13,21 +13,34 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  const categories = getAllCategories();
-  return categories.map((cat) => ({
-    slug: cat.slug,
+  const officialCategories = getAllCategories();
+  const allArticles = (await import('@/lib/content')).getAllArticles();
+  
+  const officialSlugs = officialCategories.map(c => c.slug);
+  const articleSlugs = allArticles.map(a => slugify(a.category));
+  
+  const allSlugs = Array.from(new Set([...officialSlugs, ...articleSlugs]));
+  
+  return allSlugs.map((slug) => ({
+    slug,
   }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const categories = getAllCategories();
-  const category = categories.find((c) => c.slug === slug);
+  const officialCategory = categories.find((c) => c.slug === slug);
   
-  if (!category) return {};
+  let name = officialCategory?.name;
+  if (!name) {
+    const allArticles = (await import('@/lib/content')).getAllArticles();
+    name = allArticles.find(a => slugify(a.category) === slug)?.category;
+  }
+  
+  if (!name) return {};
   
   return {
-    title: `${category.name} - Blog IA | Machine Stories`,
+    title: `${name} - Blog IA | Machine Stories`,
     description: `Articles sur ${category.name.toLowerCase()} : tutoriels, analyses et actualités en intelligence artificielle.`,
     alternates: {
       canonical: `https://machinestories.tn/categorie/${slug}`,
@@ -48,15 +61,30 @@ const categoryData: Record<string, { icon: string; description: string; color: s
 
 export default async function CategoryPage({ params }: PageProps) {
   const { slug } = await params;
-  const categories = getAllCategories();
-  const category = categories.find((c) => c.slug === slug);
+  const officialCategories = getAllCategories();
+  const officialCategory = officialCategories.find((c) => c.slug === slug);
   
-  if (!category) notFound();
+  let categoryName = officialCategory?.name;
+  const allArticles = (await import('@/lib/content')).getAllArticles();
+  
+  if (!categoryName) {
+    const matchingArticle = allArticles.find(a => slugify(a.category) === slug);
+    if (matchingArticle) {
+      categoryName = matchingArticle.category;
+    }
+  }
+  
+  if (!categoryName) notFound();
 
-  const articles = getArticlesByCategory(category.name);
-  const data = categoryData[slug] || { icon: '📂', description: `Articles sur ${category.name.toLowerCase()}.`, color: 'from-cyan-500 to-blue-500' };
+  const articles = (await import('@/lib/content')).getArticlesByCategory(categoryName);
+  
+  // Si c'est une catégorie non officielle et qu'elle est vide, ou si elle n'existe vraiment pas
+  if (articles.length === 0 && !officialCategory) {
+    notFound();
+  }
 
-  return (
+  const data = categoryData[slug] || { icon: '📂', description: `Articles sur ${categoryName.toLowerCase()}.`, color: 'from-cyan-500 to-blue-500' };
+  const displayName = categoryName;
     <div className="min-h-screen bg-slate-950">
       {/* Hero */}
       <section className="relative overflow-hidden bg-slate-950 py-16">
@@ -73,7 +101,7 @@ export default async function CategoryPage({ params }: PageProps) {
               <span className="text-3xl">{data.icon}</span>
             </div>
             <h1 className="font-heading text-4xl md:text-5xl font-bold text-white mb-4">
-              <span className={`bg-gradient-to-r ${data.color} bg-clip-text text-transparent`}>{category.name}</span>
+              <span className={`bg-gradient-to-r ${data.color} bg-clip-text text-transparent`}>{displayName}</span>
             </h1>
             <p className="text-lg text-slate-400 leading-relaxed">
               {data.description}
