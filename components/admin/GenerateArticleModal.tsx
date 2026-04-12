@@ -47,20 +47,55 @@ export default function GenerateArticleModal({ isOpen, onClose, onSuccess }: Gen
     setErrorMsg('');
 
     try {
-      const prompt = `Tu es un expert SEO et rédacteur spécialisé en intelligence artificielle.
-Rédige un article de blog complet en français sur le sujet : "${subject}"
+      const prompt = `# RÔLE
+Tu es un rédacteur expert, senior et reconnu, avec 15 ans d'expérience dans la rédaction d'articles de haute qualité — presse, contenu éditorial, content marketing B2B. Tu écris avec autorité, précision et singularité. Tu n'es jamais générique.
+
+# OBJECTIF
+Rédige un article de blog complet en français sur le sujet : ${subject}
 Catégorie : ${category}
+Angle choisi : l'angle le plus différenciant et contre-intuitif sur ce sujet pour un lecteur francophone professionnel
+Lecteur cible : professionnel francophone, à l'aise avec l'IA, qui cherche des insights actionnables — pas de la vulgarisation
 
-L'article doit être optimisé SEO avec cette structure EXACTE en JSON :
+# RÈGLES DE RÉDACTION IMPÉRATIVES
+
+## AVANT D'ÉCRIRE
+- Formule l'angle en une phrase avant la première ligne
+- Chaque section répond à une question précise du lecteur
+- Le plan se lit comme un chemin logique, pas un sommaire de manuel
+
+## TITRE ET ACCROCHE
+- Le titre est une promesse contractuelle : spécifique, honnête, irrésistible — jamais vague ni racoleur
+- Les 3 premières phrases : captent, qualifient, promettent
+- Interdit en introduction : "Dans cet article nous allons voir...", "Bienvenue...", tout contexte inutile
+
+## STYLE ET CLARTÉ
+- Une idée par paragraphe, sans exception
+- Alterner phrases courtes (affirmation) et longues (nuance)
+- Toute phrase de plus de 35 mots est scindée
+- Mots parasites bannis : "en effet", "il convient de noter que", "comme nous pouvons le constater", "dans le cadre de", "force est de constater"
+- À chaque affirmation abstraite : exemple concret, chiffre ou anecdote
+- Voix active uniquement. Verbes forts — jamais "faire", "mettre en place", "effectuer"
+
+## STRUCTURE
+- Intertitres = mini-promesses, pas titres de chapitres
+- Chaque transition résume ce qui vient d'être établi et annonce ce qui suit
+- La conclusion ouvre (action/réflexion) — elle ne résume jamais
+
+## CRÉDIBILITÉ
+- Citer uniquement si la source renforce l'argument
+- Admettre les nuances : bannir "toujours" et "jamais" dans les affirmations générales
+- Avoir un point de vue tranché et l'assumer
+
+# FORMAT DE SORTIE OBLIGATOIRE
+Réponds UNIQUEMENT avec un JSON valide, sans backticks, sans texte avant ou après, avec cette structure exacte :
 {
-  "title": "Titre SEO optimisé (60 chars max)",
-  "slug": "slug-url-propre-sans-accents",
+  "title": "Titre SEO optimisé 60 chars max, promesse contractuelle",
+  "slug": "slug-url-sans-accents-ni-caracteres-speciaux",
   "description": "Meta description 150-160 caractères avec mot-clé principal",
-  "tags": ["tag1", "tag2", "tag3"],
-  "body": "Corps complet de l'article en markdown avec ## H2 et ### H3, minimum 1500 mots, inclure une section FAQ en fin d'article avec 3 questions/réponses, introduction accrocheuse avec le mot-clé principal dans les 100 premiers mots"
+  "tags": ["tag1", "tag2", "tag3", "tag4"],
+  "body": "Corps complet en markdown, minimum 1500 mots, structure ## H2 et ### H3, FAQ 3 questions en fin d'article, introduction sans formules interdites, conclusion qui ouvre et n'est pas un résumé"
 }
-
-Réponds UNIQUEMENT avec le JSON, sans backticks, sans texte autour.`;
+`;
 
       // 1. Appel direct OpenRouter depuis le client
       const aiRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
@@ -72,8 +107,9 @@ Réponds UNIQUEMENT avec le JSON, sans backticks, sans texte autour.`;
         },
         body: JSON.stringify({
           model: "google/gemini-2.0-flash-001",
-          max_tokens: 4000,
-          messages: [{ role: "user", content: prompt }]
+          max_tokens: 5000,
+          messages: [{ role: "user", content: prompt }],
+          response_format: { type: "json_object" }
         })
       });
 
@@ -82,9 +118,19 @@ Réponds UNIQUEMENT avec le JSON, sans backticks, sans texte autour.`;
       const aiData = await aiRes.json();
       const aiContent = aiData.choices[0].message.content.trim();
       
-      // Extraction et parsing JSON
-      const jsonMatch = aiContent.match(/\{[\s\S]*\}/);
-      const generatedJson = JSON.parse(jsonMatch ? jsonMatch[0] : aiContent);
+      let generatedJson;
+      try {
+        // Nettoyage robuste : on cherche le premier "{" et le dernier "}"
+        const start = aiContent.indexOf('{');
+        const end = aiContent.lastIndexOf('}') + 1;
+        if (start === -1 || end === 0) throw new Error('Format JSON non trouvé');
+        
+        const jsonStr = aiContent.slice(start, end);
+        generatedJson = JSON.parse(jsonStr);
+      } catch (e) {
+        console.error('Parsing error. AI Content:', aiContent);
+        throw new Error('Le format JSON généré est invalide. Veuillez réessayer.');
+      }
 
       // 2. Sauvegarde via l'API locale
       const saveRes = await fetch('/api/admin/articles', {
