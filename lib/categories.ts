@@ -28,7 +28,7 @@ function readCategories(): Category[] {
       { name: 'Tutoriels & Guides', slug: 'tutoriels-guides', icon: '📚', description: 'Apprenez pas à pas' },
       { name: 'Outils & Applications', slug: 'outils-applications', icon: '🛠️', description: 'Découvrez les meilleurs outils' },
       { name: 'Éthique & Société', slug: 'ethique-societe', icon: '⚖️', description: 'Enjeux et réflexions' },
-      { name: 'Business & IA', slug: 'business-ia', icon: '💼', description: 'L\'IA dans l'entreprise' },
+      { name: 'Business & IA', slug: 'business-ia', icon: '💼', description: "L'IA dans l'entreprise" },
     ];
   }
   return JSON.parse(fs.readFileSync(categoriesFile, 'utf8'));
