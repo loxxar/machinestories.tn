@@ -1,21 +1,37 @@
 import Link from 'next/link';
 import { getAllCategories } from '@/lib/categories';
+import { Rocket } from 'lucide-react';
 
 export default function Header() {
   const categories = getAllCategories();
   return (
     <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-slate-950/95 backdrop-blur">
       <nav className="container mx-auto px-4 h-14 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="relative w-8 h-8">
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-lg rotate-3 group-hover:rotate-6 transition-transform" />
-            <div className="absolute inset-0 bg-slate-950 rounded-lg flex items-center justify-center">
-              <span aria-hidden="true" className="text-sm font-bold bg-gradient-to-br from-cyan-400 to-blue-400 bg-clip-text text-transparent">M</span>
-            </div>
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="relative flex items-center justify-center">
+            <Rocket 
+              size={24} 
+              color="#06b6d4" 
+              className="rocket-icon"
+            />
           </div>
-          <span className="font-heading text-lg font-bold text-white hidden sm:inline">
-            Machine<span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Stories</span>
+          <span className="font-mono font-medium text-xl text-white hidden sm:inline-block">
+            Machine<span style={{ color: '#06b6d4' }}>Stories</span>
           </span>
+          <style dangerouslySetInnerHTML={{ __html: `
+            @keyframes rocket-float {
+              0%, 100% { transform: rotate(-45deg) translateY(0px); }
+              50%       { transform: rotate(-45deg) translateY(-4px); }
+            }
+            @keyframes rocket-glow {
+              0%, 100% { filter: drop-shadow(0 0 4px #06b6d4); }
+              50%       { filter: drop-shadow(0 0 10px #06b6d4) drop-shadow(0 0 20px #0891b2); }
+            }
+            .rocket-icon {
+              animation: rocket-float 3s ease-in-out infinite, rocket-glow 2s ease-in-out infinite;
+              transform: rotate(-45deg);
+            }
+          `}} />
         </Link>
 
         <div className="hidden md:flex items-center gap-6">

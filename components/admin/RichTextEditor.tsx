@@ -5,6 +5,9 @@ import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
 import Image from '@tiptap/extension-image';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
+import { createLowlight, common } from 'lowlight';
+
+const lowlight = createLowlight(common);
 
 interface RichTextEditorProps {
   content: string;
@@ -13,11 +16,12 @@ interface RichTextEditorProps {
 
 export default function RichTextEditor({ content, onChange }: RichTextEditorProps) {
   const editor = useEditor({
+    immediatelyRender: false,
     extensions: [
       StarterKit,
       Link.configure({ openOnClick: false }),
       Image,
-      CodeBlockLowlight,
+      CodeBlockLowlight.configure({ lowlight }),
     ],
     content,
     onUpdate: ({ editor }) => {

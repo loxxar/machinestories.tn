@@ -1,8 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import RichTextEditor from './RichTextEditor';
+import dynamic from 'next/dynamic';
+const RichTextEditor = dynamic(() => import('./RichTextEditor'), { 
+  ssr: false 
+});
 
 interface ArticleData {
   title?: string;
@@ -45,6 +48,9 @@ export default function ArticleEditor({ slug, initialData }: ArticleEditorProps)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [categories, setCategories] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -91,6 +97,37 @@ export default function ArticleEditor({ slug, initialData }: ArticleEditorProps)
       setMessage({ type: 'error', text: 'Erreur serveur' });
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    setMessage(null);
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const res = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setFrontmatter(prev => ({ ...prev, image: data.url }));
+        setUploadError(null);
+      } else {
+        setUploadError(data.error || "Erreur lors de l'upload");
+      }
+    } catch {
+      setUploadError("Erreur réseau lors de l'upload");
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -176,14 +213,54 @@ export default function ArticleEditor({ slug, initialData }: ArticleEditorProps)
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">URL Image</label>
-            <input
-              type="text"
-              value={frontmatter.image}
-              onChange={(e) => setFrontmatter({ ...frontmatter, image: e.target.value })}
-              placeholder="https://..."
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg dark:bg-gray-800 dark:text-white"
-            />
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Image de couverture</label>
+            <div className="space-y-4">
+              <div className="flex items-center gap-4">
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  className="hidden"
+                  accept="image/jpeg,image/png,image/webp"
+                  onChange={handleImageUpload}
+                  disabled={isUploading}
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={isUploading}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                    isUploading 
+                      ? 'bg-gray-400 cursor-not-allowed' 
+                      : 'bg-cyan-600 hover:bg-cyan-700 active:bg-cyan-800'
+                  } text-white text-sm shadow-sm`}
+                >
+                  {isUploading ? 'Chargement...' : 'Choisir une image'}
+                </button>
+              </div>
+
+              {uploadError && (
+                <p className="text-sm text-red-500 font-medium">{uploadError}</p>
+              )}
+
+              {frontmatter.image && (
+                <div className="relative w-full max-w-xs group">
+                  <img 
+                    src={frontmatter.image} 
+                    alt="Aperçu" 
+                    className="rounded-lg max-h-32 object-cover border border-slate-700 shadow-md"
+                  />
+                  <div className="mt-2">
+                    <input
+                      type="text"
+                      value={frontmatter.image}
+                      readOnly
+                      className="w-full px-3 py-1.5 border border-gray-300 dark:border-gray-700 rounded-lg dark:bg-gray-800/50 dark:text-gray-400 text-xs font-mono truncate"
+                    />
+                    <p className="text-[10px] text-gray-500 mt-1 italic">URL de l&apos;image (lecture seule)</p>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
           <div>

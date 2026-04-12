@@ -8,6 +8,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'images.unsplash.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'loxxar-s3.s3.fr-par.scw.cloud',
+      },
     ],
   },
   async headers() {
