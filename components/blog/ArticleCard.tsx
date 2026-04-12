@@ -17,7 +17,7 @@ export default function ArticleCard({ article, featured = false }: ArticleCardPr
     return (
       <article className="grid md:grid-cols-2 gap-6 bg-slate-900/80 border border-white/5 rounded-xl overflow-hidden min-h-[320px]">
         {article.image && (
-          <div className="relative aspect-video md:aspect-auto w-full h-full min-h-[250px] overflow-hidden">
+          <div className="relative w-full overflow-hidden min-h-[250px] md:min-h-[300px]">
             <Image
               src={article.image}
               alt={article.imageAlt || article.title}
