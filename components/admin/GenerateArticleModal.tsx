@@ -165,18 +165,22 @@ Réponds UNIQUEMENT avec un JSON valide, sans backticks, sans texte avant ou apr
 
       // 2. Injection des images dans le body Markdown
       const photo1Tag = photo1 ? 
-        `\n<img src="${photo1.urls.regular}" alt="${photo1.alt_description || ''}" class="float-left mr-6 mb-4 rounded-xl border border-white/10 w-72" />\n` 
+        `\n<img src="${photo1.urls.regular}" alt="${photo1.alt_description || ''}" class="float-left mr-6 mb-4 rounded-xl border border-white/10 w-[580px]" />\n` 
         : '';
 
       const photo2Tag = photo2 ? 
-        `\n<img src="${photo2.urls.regular}" alt="${photo2.alt_description || ''}" class="float-right ml-6 mb-4 rounded-xl border border-white/10 w-72" />\n` 
+        `\n<img src="${photo2.urls.regular}" alt="${photo2.alt_description || ''}" class="float-right ml-6 mb-4 rounded-xl border border-white/10 w-[580px]" />\n` 
         : '';
 
       let bodyWithPhotos = generatedJson.body;
 
-      // Bug 1 : Log cover image
-      console.log('Cover image URL:', coverPhoto?.urls?.regular);
-      
+      // Débogage Unsplash
+      console.log('Photos Unsplash récupérées:', {
+        cover: coverPhoto?.urls?.regular,
+        photo1: photo1?.urls?.regular,
+        photo2: photo2?.urls?.regular,
+      });
+
       // Bug 2 : Log h2 count et injection robuste
       const h2Matches = bodyWithPhotos.match(/^## .+/gm);
       const h2Total = h2Matches?.length || 0;
@@ -202,6 +206,8 @@ Réponds UNIQUEMENT avec un JSON valide, sans backticks, sans texte avant ou apr
 
       // 3. Conversion Markdown -> HTML pour TipTap
       const htmlBody = await marked.parse(bodyWithPhotos);
+
+      console.log('frontmatter.image avant envoi:', coverPhoto?.urls?.regular || '');
 
       // 4. Sauvegarde via l'API locale
       const saveRes = await fetch('/api/admin/articles', {
