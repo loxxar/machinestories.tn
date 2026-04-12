@@ -38,13 +38,13 @@ export default function HomePage() {
         
         <Container className="relative z-20 py-16">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 border border-white/10 mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
               <span className="text-xs text-slate-300">Votre source sur l&apos;IA en français</span>
             </div>
             
             <h1 className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold mb-4 leading-tight">
-              <span className="bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-slate-100 via-slate-200 to-slate-400 bg-clip-text text-transparent">
                 L&apos;Intelligence Artificielle,
               </span>
               <br />
@@ -69,7 +69,7 @@ export default function HomePage() {
               </Link>
               <Link
                 href="/categorie/tutoriels-guides"
-                className="px-6 py-3 bg-white/5 border border-white/10 text-white font-medium rounded-lg hover:bg-white/10 transition-all"
+                className="px-6 py-3 bg-slate-900 border border-white/10 text-white font-medium rounded-lg hover:bg-slate-800 transition-all"
               >
                 Tutoriels
               </Link>

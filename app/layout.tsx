@@ -94,7 +94,7 @@ export default function RootLayout({
         <ThemeScript />
         <JsonLd data={websiteJsonLd} />
       </head>
-      <body className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-sans">
+      <body className="min-h-screen bg-slate-950 text-slate-100 font-sans">
         <a href="#main-content" className="skip-to-content">
           Aller au contenu principal
         </a>
