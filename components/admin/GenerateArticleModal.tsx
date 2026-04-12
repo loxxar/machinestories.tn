@@ -192,7 +192,7 @@ Réponds UNIQUEMENT avec un JSON valide, sans backticks, sans texte avant ou apr
         const targetH2 = h2Total >= 3 ? 3 : (h2Total >= 2 ? 2 : 0);
         if (targetH2 > 0) {
           let currentH2 = 0;
-          bodyWithPhotos = bodyWithPhotos.replace(/^## .+/gm, (match) => {
+          bodyWithPhotos = bodyWithPhotos.replace(/^## .+/gm, (match: string) => {
             currentH2++;
             if (currentH2 === targetH2) return match + '\n' + photo2Tag;
             return match;
