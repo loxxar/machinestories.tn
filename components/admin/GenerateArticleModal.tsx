@@ -153,9 +153,14 @@ Réponds UNIQUEMENT avec un JSON valide, sans backticks, sans texte avant ou apr
             title: generatedJson.title,
             slug: generatedJson.slug,
             description: generatedJson.description,
+            date: new Date().toISOString().split('T')[0],
+            author: 'Machine Stories',
             category: category,
             tags: generatedJson.tags || [],
-            draft: true // Forcé en brouillon
+            image: '',
+            imageAlt: '',
+            featured: false,
+            draft: true,
           },
           body: generatedJson.body
         }),
