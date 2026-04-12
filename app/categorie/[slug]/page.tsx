@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   
   return {
     title: `${name} - Blog IA | Machine Stories`,
-    description: `Articles sur ${category.name.toLowerCase()} : tutoriels, analyses et actualités en intelligence artificielle.`,
+    description: `Articles sur ${name.toLowerCase()} : tutoriels, analyses et actualités en intelligence artificielle.`,
     alternates: {
       canonical: `https://machinestories.tn/categorie/${slug}`,
     },
@@ -85,6 +85,8 @@ export default async function CategoryPage({ params }: PageProps) {
 
   const data = categoryData[slug] || { icon: '📂', description: `Articles sur ${categoryName.toLowerCase()}.`, color: 'from-cyan-500 to-blue-500' };
   const displayName = categoryName;
+
+  return (
     <div className="min-h-screen bg-slate-950">
       {/* Hero */}
       <section className="relative overflow-hidden bg-slate-950 py-16">
@@ -94,7 +96,7 @@ export default async function CategoryPage({ params }: PageProps) {
         </div>
         
         <div className="relative z-10 container mx-auto px-4">
-          <Breadcrumb items={[{ name: 'Blog', href: '/blog' }, { name: category.name, href: `/categorie/${slug}` }]} />
+          <Breadcrumb items={[{ name: 'Blog', href: '/blog' }, { name: displayName, href: `/categorie/${slug}` }]} />
           
           <div className="mt-8 max-w-2xl">
             <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r ${data.color} mb-6`}>
