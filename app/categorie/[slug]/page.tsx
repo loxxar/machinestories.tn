@@ -147,7 +147,7 @@ export default async function CategoryPage({ params }: PageProps) {
         <div className="container mx-auto px-4">
           <h2 className="font-heading text-xl font-bold text-white mb-6">Explorer d&apos;autres catégories</h2>
           <div className="flex flex-wrap gap-3">
-            {categories.filter(c => c.slug !== slug).map((cat) => (
+            {officialCategories.filter(c => c.slug !== slug).map((cat) => (
               <Link key={cat.slug} href={`/categorie/${cat.slug}`}>
                 <Badge variant="default">{cat.name}</Badge>
               </Link>
