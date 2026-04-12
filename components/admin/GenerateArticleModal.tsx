@@ -116,20 +116,32 @@ Réponds UNIQUEMENT avec un JSON valide, sans backticks, sans texte avant ou apr
       if (!aiRes.ok) throw new Error('Échec de l\'appel à OpenRouter');
 
       const aiData = await aiRes.json();
-      const aiContent = aiData.choices[0].message.content.trim();
+      const aiContent = aiData.choices[0].message.content;
       
+      // Nettoyage robuste
+      const cleaned = aiContent
+        .replace(/^```json\s*/i, '')  // enlever ```json au début
+        .replace(/^```\s*/i, '')       // enlever ``` au début
+        .replace(/```\s*$/i, '')       // enlever ``` à la fin
+        .trim();
+
+      console.log('Cleaned AI Content:', cleaned);
+
       let generatedJson;
       try {
-        // Nettoyage robuste : on cherche le premier "{" et le dernier "}"
-        const start = aiContent.indexOf('{');
-        const end = aiContent.lastIndexOf('}') + 1;
-        if (start === -1 || end === 0) throw new Error('Format JSON non trouvé');
-        
-        const jsonStr = aiContent.slice(start, end);
-        generatedJson = JSON.parse(jsonStr);
-      } catch (e) {
-        console.error('Parsing error. AI Content:', aiContent);
-        throw new Error('Le format JSON généré est invalide. Veuillez réessayer.');
+        // Extraction JSON si texte parasite avant/après
+        const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
+        if (!jsonMatch) throw new Error('JSON introuvable dans la réponse');
+
+        generatedJson = JSON.parse(jsonMatch[0]);
+
+        // Vérification des champs obligatoires
+        if (!generatedJson.title || !generatedJson.body || !generatedJson.slug) {
+          throw new Error('Champs manquants dans le JSON généré');
+        }
+      } catch (e: any) {
+        console.error('Parsing error. Original content:', aiContent);
+        throw new Error(e.message || 'Le format JSON généré est invalide.');
       }
 
       // 2. Sauvegarde via l'API locale
