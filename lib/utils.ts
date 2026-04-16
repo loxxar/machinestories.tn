@@ -30,3 +30,14 @@ export function slugify(text: string): string {
 export function cn(...classes: (string | undefined | null | false)[]): string {
   return classes.filter(Boolean).join(' ');
 }
+
+/**
+ * Ensures that HTML content is safe for MDX by closing void tags like <img>, <br>, <hr>.
+ */
+export function ensureMdxSafe(html: string): string {
+  if (!html) return '';
+  return html
+    .replace(/<img([^>]*[^/])>/g, '<img$1 />')
+    .replace(/<br([^>]*[^/])>/g, '<br$1 />')
+    .replace(/<hr([^>]*[^/])>/g, '<hr$1 />');
+}

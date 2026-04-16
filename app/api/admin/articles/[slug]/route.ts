@@ -1,6 +1,7 @@
 import { getSession } from '@/lib/auth';
 import { getArticleBySlug, saveArticle, deleteArticle } from '@/lib/content';
 import { NextResponse } from 'next/server';
+import { ensureMdxSafe } from '@/lib/utils';
 import matter from 'gray-matter';
 
 // Configuration GitHub
@@ -43,6 +44,7 @@ export async function PUT(
   try {
     const { slug: fileSlug } = await params;
     const { frontmatter, body } = await request.json();
+    const safeBody = ensureMdxSafe(body || '');
 
     const frontmatterData = {
       title: frontmatter.title,
@@ -59,7 +61,7 @@ export async function PUT(
       draft: frontmatter.draft || false,
     };
 
-    const content = matter.stringify(body || '', frontmatterData);
+    const content = matter.stringify(safeBody, frontmatterData);
     const fileName = `${fileSlug}.mdx`;
     const apiUrl = `${GITHUB_API_BASE}/${fileName}`;
 

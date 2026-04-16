@@ -1,7 +1,7 @@
 import { getSession } from '@/lib/auth';
 import { getAdminArticles, saveArticle } from '@/lib/content';
 import { NextResponse } from 'next/server';
-import { slugify } from '@/lib/utils';
+import { slugify, ensureMdxSafe } from '@/lib/utils';
 import matter from 'gray-matter';
 
 // Configuration GitHub
@@ -40,6 +40,7 @@ export async function POST(request: Request) {
 
   try {
     const { frontmatter, body } = await request.json();
+    const safeBody = ensureMdxSafe(body || '');
     const fileSlug = frontmatter.fileSlug || frontmatter.slug || slugify(frontmatter.title || 'Untitled');
     const slug = frontmatter.slug || slugify(frontmatter.title || 'Untitled');
 
@@ -58,7 +59,7 @@ export async function POST(request: Request) {
       draft: frontmatter.draft || false,
     };
 
-    const content = matter.stringify(body || '', frontmatterData);
+    const content = matter.stringify(safeBody, frontmatterData);
     const fileName = `${fileSlug}.mdx`;
     const apiUrl = `${GITHUB_API_BASE}/${fileName}`;
 
