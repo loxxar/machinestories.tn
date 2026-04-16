@@ -94,6 +94,9 @@ Réponds UNIQUEMENT avec un JSON valide, sans backticks, sans texte avant ou apr
   "slug": "slug-url-sans-accents-ni-caracteres-speciaux",
   "description": "Meta description 150-160 caractères avec mot-clé principal",
   "tags": ["tag1", "tag2", "tag3", "tag4"],
+  "unsplash_cover": "2-3 mots-clés en anglais pour la photo de couverture",
+  "unsplash_photo1": "2-3 mots-clés en anglais pour la photo 1 (milieu article)",
+  "unsplash_photo2": "2-3 mots-clés en anglais pour la photo 2 (fin article)",
   "body": "Corps complet en markdown, minimum 1500 mots, structure ## H2 et ### H3, FAQ 3 questions en fin d'article, introduction sans formules interdites, conclusion qui ouvre et n'est pas un résumé"
 }
 `;
@@ -158,9 +161,9 @@ Réponds UNIQUEMENT avec un JSON valide, sans backticks, sans texte avant ou apr
       };
 
       const [coverPhoto, photo1, photo2] = await Promise.all([
-        fetchUnsplash(generatedJson.slug.replace(/-/g, ' ')),
-        generatedJson.tags?.[0] ? fetchUnsplash(generatedJson.tags[0]) : Promise.resolve(null),
-        generatedJson.tags?.[1] ? fetchUnsplash(generatedJson.tags[1]) : Promise.resolve(null),
+        fetchUnsplash(generatedJson.unsplash_cover),
+        fetchUnsplash(generatedJson.unsplash_photo1),
+        fetchUnsplash(generatedJson.unsplash_photo2),
       ]);
 
       // 2. Injection des images dans le body Markdown
