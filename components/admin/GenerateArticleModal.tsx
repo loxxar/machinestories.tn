@@ -166,7 +166,7 @@ Réponds UNIQUEMENT avec un JSON valide, sans backticks, sans texte avant ou apr
         fetchUnsplash(generatedJson.unsplash_photo2),
       ]);
 
-      // 2. Injection des images dans le body Markdown
+      // 2. Injection des images dans le body Markdown (format MDX avec slash de fermeture)
       const photo1Tag = photo1 ? 
         `\n<img src="${photo1.urls.regular}" alt="${photo1.alt_description || ''}" class="float-left mr-6 mb-4 rounded-xl border border-white/10 w-[580px]" />\n` 
         : '';

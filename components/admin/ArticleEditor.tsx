@@ -78,13 +78,21 @@ export default function ArticleEditor({ slug, initialData }: ArticleEditorProps)
     const tags = tagsInput.split(',').map(t => t.trim()).filter(Boolean);
     const finalData = { ...frontmatter, tags, draft: publishAsDraft };
 
+    const url = slug ? `/api/admin/articles/${slug}` : '/api/admin/articles';
+    const method = slug ? 'PUT' : 'POST';
+    const { body: _, ...cleanFrontmatter } = finalData as any;
+
+    console.log('DEBUG SAVE ARTICLE:', {
+      url,
+      method,
+      payload: { frontmatter: cleanFrontmatter, body }
+    });
+
     try {
-      const url = slug ? `/api/admin/articles/${slug}` : '/api/admin/articles';
-      const method = slug ? 'PUT' : 'POST';
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ frontmatter: finalData, body }),
+        body: JSON.stringify({ frontmatter: cleanFrontmatter, body }),
       });
 
       if (res.ok) {
