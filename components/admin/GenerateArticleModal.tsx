@@ -120,6 +120,7 @@ Réponds UNIQUEMENT avec un JSON valide, sans backticks, sans texte avant ou apr
       if (!aiRes.ok) throw new Error('Échec de l\'appel à OpenRouter');
 
       const aiData = await aiRes.json();
+      console.log('OpenRouter raw response:', JSON.stringify(aiData));
       const aiContent = aiData.choices[0].message.content;
       
       // Nettoyage robuste
